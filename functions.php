@@ -94,6 +94,21 @@ function piratez_cyberpunk_content_width() {
 add_action('after_setup_theme', 'piratez_cyberpunk_content_width', 0);
 
 /**
+ * Return font-family stack for heading/body choice (Inter, Roboto, System UI).
+ *
+ * @param string $choice Theme mod value.
+ * @return string CSS font-family value.
+ */
+function piratez_get_font_stack($choice) {
+    $stacks = array(
+        'Inter'     => "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+        'Roboto'    => "'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+        'System UI' => "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+    );
+    return isset($stacks[$choice]) ? $stacks[$choice] : $stacks['Inter'];
+}
+
+/**
  * Register widget areas
  */
 require get_template_directory() . '/inc/widget-areas.php';
@@ -120,26 +135,61 @@ function piratez_cyberpunk_scripts() {
         wp_add_inline_style('piratez-foundation', $custom_css);
     }
 
-    // Output dynamic colors
-    $primary_color = get_theme_mod('piratez_primary_accent_color', '#0066cc');
-    $secondary_color = get_theme_mod('piratez_secondary_accent_color', '#cc0066');
-    $gold_color = get_theme_mod('piratez_gold_color', '#b8860b');
-    $bg_color = get_theme_mod('piratez_background_color', '#ffffff');
-    
-    $dynamic_css = "
-        :root {
-            --color-accent-primary: {$primary_color};
-            --color-accent-secondary: {$secondary_color};
-            --color-accent-gold: {$gold_color};
-        }
-        body {
-            background-color: {$bg_color};
-        }
-    ";
+    // Output dynamic colors (Phase PRE 5: full light/dark palette; migrate old mods to light)
+    $light_vars = array(
+        '--color-bg-primary'       => get_theme_mod('piratez_light_bg_primary') ?: get_theme_mod('piratez_background_color', '#ffffff'),
+        '--color-bg-secondary'     => get_theme_mod('piratez_light_bg_secondary', '#f5f5f5'),
+        '--color-surface'           => get_theme_mod('piratez_light_surface', '#ffffff'),
+        '--color-text-primary'     => get_theme_mod('piratez_light_text_primary', '#1a1a2e'),
+        '--color-text-secondary'   => get_theme_mod('piratez_light_text_secondary', '#666666'),
+        '--color-border'           => get_theme_mod('piratez_light_border', '#e0e0e0'),
+        '--color-accent-primary'    => get_theme_mod('piratez_light_accent_primary') ?: get_theme_mod('piratez_primary_accent_color', '#0066cc'),
+        '--color-accent-secondary'  => get_theme_mod('piratez_light_accent_secondary') ?: get_theme_mod('piratez_secondary_accent_color', '#cc0066'),
+        '--color-accent-gold'       => get_theme_mod('piratez_light_accent_gold') ?: get_theme_mod('piratez_gold_color', '#b8860b'),
+    );
+    $dark_vars = array(
+        '--color-bg-primary'       => get_theme_mod('piratez_dark_bg_primary', '#1a1a2e'),
+        '--color-bg-secondary'     => get_theme_mod('piratez_dark_bg_secondary', '#0f0f1a'),
+        '--color-surface'           => get_theme_mod('piratez_dark_surface', '#252540'),
+        '--color-text-primary'     => get_theme_mod('piratez_dark_text_primary', '#e0e0e0'),
+        '--color-text-secondary'   => get_theme_mod('piratez_dark_text_secondary', '#b0b0b0'),
+        '--color-border'           => get_theme_mod('piratez_dark_border', '#3a3a5a'),
+        '--color-accent-primary'    => get_theme_mod('piratez_dark_accent_primary', '#00a8ff'),
+        '--color-accent-secondary'  => get_theme_mod('piratez_dark_accent_secondary', '#ff0080'),
+        '--color-accent-gold'       => get_theme_mod('piratez_dark_accent_gold', '#ffd700'),
+    );
+    $light_decls = array();
+    foreach ($light_vars as $var => $val) {
+        $light_decls[] = $var . ': ' . esc_attr($val);
+    }
+    $dark_decls = array();
+    foreach ($dark_vars as $var => $val) {
+        $dark_decls[] = $var . ': ' . esc_attr($val);
+    }
+
+    // Typography (theme-controlled; blog-friendly)
+    $heading_font = get_theme_mod('piratez_heading_font', 'Inter');
+    $body_font    = get_theme_mod('piratez_body_font', 'Inter');
+    $accent_font  = get_theme_mod('piratez_accent_font', 'Press Start 2P');
+    $base_size    = max(14, min(22, absint(get_theme_mod('piratez_base_font_size', 16))));
+    $light_decls[] = '--font-heading: ' . piratez_get_font_stack($heading_font);
+    $light_decls[] = '--font-body: ' . piratez_get_font_stack($body_font);
+    if ($accent_font === 'Press Start 2P') {
+        $light_decls[] = "--font-accent: 'Press Start 2P', monospace";
+    } elseif ($accent_font === 'Same as heading') {
+        $light_decls[] = '--font-accent: var(--font-heading)';
+    } else {
+        $light_decls[] = '--font-accent: var(--font-body)';
+    }
+
+    $dynamic_css = ':root { ' . implode('; ', $light_decls) . '; }
+html[data-theme="dark"] { ' . implode('; ', $dark_decls) . '; }
+html { font-size: ' . $base_size . 'px; }
+';
     wp_add_inline_style('piratez-foundation', $dynamic_css);
 
-    // Google Fonts (preconnect for performance)
-    wp_enqueue_style('piratez-fonts', 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Press+Start+2P&display=swap', array(), null);
+    // Google Fonts (Inter, Roboto, Press Start 2P for Customizer choices)
+    wp_enqueue_style('piratez-fonts', 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&family=Press+Start+2P&display=swap', array(), null);
     
     // Add preconnect for Google Fonts
     add_action('wp_head', 'piratez_font_preconnect', 1);

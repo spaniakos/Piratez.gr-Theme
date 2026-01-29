@@ -17,6 +17,8 @@ A WordPress theme for tech blogs: pirate + cyberpunk style, dark/light mode, and
 - **Editorial callouts** — Shortcodes: PirateZ Take, Hard Truth, Warning, Note (Phase 3; see below)
 - **Social links shortcode** — `[piratez_social_links]` with optional class
 - **Post metadata** — Date, author, “Updated” when modified, categories/tags; all toggleable in Customizer (Phase 4; see below)
+- **Colors & Appearance (Phase PRE 5)** — Full light and dark palette in Customizer (background, surface, text, border, accents); background fix; theme defaults
+- **Typography (theme-controlled)** — Heading, body, and accent fonts; base font size (14–22px); Customizer, blog-friendly
 - **Customizer options** — Logo, colors, layout, sidebar, tagline, accent intensity
 - **Widget areas** — Header top, below menu, sidebar, footer
 - **Responsive** — Mobile-first, 2-column post grid on desktop
@@ -79,6 +81,31 @@ Post date, author, and “Updated” (when modified ≠ published) are output vi
 - **Post Tags** — Show “Tagged” tags in entry footer on single posts (default on).
 
 Single and archive/loop templates use `piratez_posted_on()` and `piratez_posted_by()` from `inc/template-tags.php`; both respect the Customizer toggles.
+
+---
+
+## Phase PRE 5 — Colors & Appearance (complete)
+
+Full control over light and dark mode colors in **Appearance → Customize → Colors & Appearance**:
+
+- **Light mode:** 9 controls — Background, Background secondary, Surface, Text primary, Text secondary, Border, Accent primary, Accent secondary, Accent gold. Defaults match the theme’s light palette.
+- **Dark mode:** Same 9 controls for when the dark theme is active; defaults match the theme’s dark palette.
+- **Background fix:** The previous “Background color” control did not apply in light mode because of `!important` in the stylesheet; forced rules now use CSS variables so Customizer values apply. Old saved values for background and accents are migrated to the new light controls.
+
+Accent Intensity and Default Theme Mode remain in the same section.
+
+---
+
+## Typography (theme-controlled, blog-friendly)
+
+**Appearance → Customize → Typography Settings**:
+
+- **Heading Font** — Inter, Roboto, or System UI (default: Inter).
+- **Body Font** — Inter, Roboto, or System UI (default: Inter).
+- **Accent Font** — Press Start 2P (pirate/cyberpunk bits), Same as heading, or Same as body (default: Press Start 2P).
+- **Base Font Size (px)** — Root font size; all rem-based text scales with it. 14–22px, default 16. Good for readability.
+
+Font choices are wired to CSS variables (`--font-heading`, `--font-body`, `--font-accent`); base size sets `html { font-size }`. Live preview in Customizer.
 
 ---
 

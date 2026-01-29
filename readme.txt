@@ -6,7 +6,7 @@ Requires PHP: 7.4
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl.html
 
-Pirate + cyberpunk WordPress theme for tech blogs. Dark/light mode, sticky header, reading time, floating TOC, editorial callouts (Phase 3), post metadata toggles (Phase 4), WCAG 2.1 AA accessibility, social links shortcode.
+Pirate + cyberpunk WordPress theme for tech blogs. Dark/light mode, full Colors & Appearance (Phase PRE 5), sticky header, reading time, floating TOC, editorial callouts (Phase 3), post metadata toggles (Phase 4), WCAG 2.1 AA accessibility, social links shortcode.
 
 == Description ==
 
@@ -19,6 +19,8 @@ Features:
 * Table of contents: floating button + slide-in panel (desktop) / bottom-sheet (mobile); close via button, ESC, or link; keyboard accessible; respects reduced motion
 * Editorial callouts (Phase 3): [piratez_take], [piratez_hard_truth], [piratez_warning], [piratez_note] (optional title)
 * Post metadata (Phase 4): date, author, "Updated" when modified; Customizer toggles for date, author, updated, categories, tags
+* Colors & Appearance (Phase PRE 5): full light and dark palette (9+9 controls); background fix; theme defaults; migration from old color settings
+* Typography (theme-controlled): Heading, body, accent fonts (Inter, Roboto, System UI, Press Start 2P); base font size 14–22px; Customizer
 * Social media links shortcode [piratez_social_links]
 * Customizer options (logos, colors, layout, sidebar, tagline)
 * Widget areas: header top, below menu, sidebar, footer
@@ -51,6 +53,14 @@ Four shortcodes for styled callouts: [piratez_take] (opinion), [piratez_hard_tru
 
 Date and author use template tags; "Updated [date]" appears when the post was modified after publishing. In Appearance > Customize > Blog Features you can enable/disable: Post Date, Post Author, Last Updated Date, Post Categories, Post Tags (all on by default).
 
+= Colors & Appearance (Phase PRE 5, complete) =
+
+Full light and dark palette in Appearance > Customize > Colors & Appearance: 9 controls for light mode (background, surface, text, border, accents) and 9 for dark mode. Defaults match the theme palette. Fixes the previous background color not applying in light mode. Existing saved background and accent colors are migrated to the new light controls.
+
+= Typography (theme-controlled) =
+
+Appearance > Customize > Typography Settings: Heading Font and Body Font (Inter, Roboto, System UI); Accent Font (Press Start 2P, Same as heading, Same as body); Base Font Size 14–22px. All controlled from the theme; blog-friendly readability.
+
 == Changelog ==
 
 = 1.0.0 =
@@ -59,21 +69,23 @@ Date and author use template tags; "Updated [date]" appears when the post was mo
 * Social links shortcode and Customizer options.
 * Widget areas and responsive layout.
 
-= 1.x (Phase 1, 2, 3 & 4) =
+= 1.x (Phase 1, 2, 3, 4 & PRE 5) =
 * Phase 1: Floating TOC button, slide-in panel (desktop), bottom-sheet (mobile), close button and ESC, keyboard nav, scroll-to-heading offset for sticky header, reduced-motion support.
 * Phase 2: Landmarks (role="banner", aria-label on nav, role="contentinfo" on footer), :focus-visible styles, Escape to close mobile menu, prefers-reduced-motion (scroll-behavior and transitions), contrast comments, ARIA on menu toggle and TOC.
 * Phase 3: Editorial shortcodes — PirateZ Take, Hard Truth, Warning, Note; optional title attribute; admin Shortcodes page and SHORTCODE-TEST-GUIDELINES.md.
 * Phase 4: Post metadata — piratez_posted_on() / piratez_posted_by(); visible "Updated [date]" when modified; Customizer toggles for post date, author, last updated, categories, tags (Blog Features).
+* Phase PRE 5: Colors & Appearance — full light/dark palette (18 controls); forced background rules use CSS variables; migration from old background/accent settings; live preview in Customizer.
+* Typography — Heading, body, accent fonts wired to Customizer; base font size (14–22px); piratez_get_font_stack(); live preview.
 
 == Upgrade Notice ==
 
 = 1.0.0 =
 * Initial release.
 
-= 1.x (Phase 1, 2, 3 & 4 complete) =
-* Phases 1–4: TOC, accessibility, editorial shortcodes, post metadata toggles. See Changelog.
+= 1.x (Phase 1, 2, 3, 4 & PRE 5 complete) =
+* Phases 1–4 and PRE 5: TOC, accessibility, editorial shortcodes, post metadata, full Colors & Appearance. See Changelog.
 
 == Resources ==
 
-* Google Fonts (Inter, Press Start 2P) - loaded from fonts.googleapis.com; see Google Fonts terms.
+* Google Fonts (Inter, Roboto, Press Start 2P) - loaded from fonts.googleapis.com; see Google Fonts terms.
 * Theme uses no other bundled third-party assets; SVG icons in shortcode are inline and part of the theme (GPL).

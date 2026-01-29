@@ -62,104 +62,95 @@ function piratez_cyberpunk_customize_register($wp_customize) {
     );
 
     // ============================================
-    // 2. COLORS & APPEARANCE
+    // 2. COLORS & APPEARANCE (Phase PRE 5: full light/dark palette)
     // ============================================
     $wp_customize->add_section(
         'piratez_colors_section',
         array(
-            'title'    => __('Colors & Appearance', 'piratez-cyberpunk'),
-            'priority' => 20,
-            'panel'    => 'piratez_theme_panel',
+            'title'       => __('Colors & Appearance', 'piratez-cyberpunk'),
+            'description' => __('Light mode colors apply when the site is in light theme; dark mode colors apply when the dark theme is active. Defaults match the theme palette.', 'piratez-cyberpunk'),
+            'priority'    => 20,
+            'panel'       => 'piratez_theme_panel',
         )
     );
 
-    // Primary Accent Color
-    $wp_customize->add_setting(
-        'piratez_primary_accent_color',
-        array(
-            'default'           => '#0066cc',
+    $light_defaults = array(
+        'piratez_light_bg_primary'       => '#ffffff',
+        'piratez_light_bg_secondary'      => '#f5f5f5',
+        'piratez_light_surface'           => '#ffffff',
+        'piratez_light_text_primary'       => '#1a1a2e',
+        'piratez_light_text_secondary'     => '#666666',
+        'piratez_light_border'            => '#e0e0e0',
+        'piratez_light_accent_primary'    => '#0066cc',
+        'piratez_light_accent_secondary'  => '#cc0066',
+        'piratez_light_accent_gold'       => '#b8860b',
+    );
+    $light_labels = array(
+        'piratez_light_bg_primary'       => __('Light: Background', 'piratez-cyberpunk'),
+        'piratez_light_bg_secondary'      => __('Light: Background secondary', 'piratez-cyberpunk'),
+        'piratez_light_surface'           => __('Light: Surface', 'piratez-cyberpunk'),
+        'piratez_light_text_primary'      => __('Light: Text primary', 'piratez-cyberpunk'),
+        'piratez_light_text_secondary'    => __('Light: Text secondary', 'piratez-cyberpunk'),
+        'piratez_light_border'            => __('Light: Border', 'piratez-cyberpunk'),
+        'piratez_light_accent_primary'    => __('Light: Accent primary', 'piratez-cyberpunk'),
+        'piratez_light_accent_secondary'  => __('Light: Accent secondary', 'piratez-cyberpunk'),
+        'piratez_light_accent_gold'       => __('Light: Accent gold', 'piratez-cyberpunk'),
+    );
+    foreach ($light_defaults as $key => $default) {
+        $wp_customize->add_setting($key, array(
+            'default'           => $default,
             'sanitize_callback' => 'sanitize_hex_color',
             'transport'         => 'postMessage',
-        )
-    );
-
-    $wp_customize->add_control(
-        new WP_Customize_Color_Control(
+        ));
+        $wp_customize->add_control(new WP_Customize_Color_Control(
             $wp_customize,
-            'piratez_primary_accent_color_control',
+            $key . '_control',
             array(
-                'label'    => __('Primary Accent Color', 'piratez-cyberpunk'),
+                'label'    => $light_labels[$key],
                 'section'  => 'piratez_colors_section',
-                'settings' => 'piratez_primary_accent_color',
+                'settings' => $key,
             )
-        )
-    );
+        ));
+    }
 
-    // Secondary Accent Color
-    $wp_customize->add_setting(
-        'piratez_secondary_accent_color',
-        array(
-            'default'           => '#cc0066',
+    $dark_defaults = array(
+        'piratez_dark_bg_primary'       => '#1a1a2e',
+        'piratez_dark_bg_secondary'      => '#0f0f1a',
+        'piratez_dark_surface'           => '#252540',
+        'piratez_dark_text_primary'       => '#e0e0e0',
+        'piratez_dark_text_secondary'     => '#b0b0b0',
+        'piratez_dark_border'            => '#3a3a5a',
+        'piratez_dark_accent_primary'    => '#00a8ff',
+        'piratez_dark_accent_secondary'  => '#ff0080',
+        'piratez_dark_accent_gold'       => '#ffd700',
+    );
+    $dark_labels = array(
+        'piratez_dark_bg_primary'       => __('Dark: Background', 'piratez-cyberpunk'),
+        'piratez_dark_bg_secondary'      => __('Dark: Background secondary', 'piratez-cyberpunk'),
+        'piratez_dark_surface'           => __('Dark: Surface', 'piratez-cyberpunk'),
+        'piratez_dark_text_primary'      => __('Dark: Text primary', 'piratez-cyberpunk'),
+        'piratez_dark_text_secondary'    => __('Dark: Text secondary', 'piratez-cyberpunk'),
+        'piratez_dark_border'            => __('Dark: Border', 'piratez-cyberpunk'),
+        'piratez_dark_accent_primary'    => __('Dark: Accent primary', 'piratez-cyberpunk'),
+        'piratez_dark_accent_secondary'  => __('Dark: Accent secondary', 'piratez-cyberpunk'),
+        'piratez_dark_accent_gold'       => __('Dark: Accent gold', 'piratez-cyberpunk'),
+    );
+    foreach ($dark_defaults as $key => $default) {
+        $wp_customize->add_setting($key, array(
+            'default'           => $default,
             'sanitize_callback' => 'sanitize_hex_color',
             'transport'         => 'postMessage',
-        )
-    );
-
-    $wp_customize->add_control(
-        new WP_Customize_Color_Control(
+        ));
+        $wp_customize->add_control(new WP_Customize_Color_Control(
             $wp_customize,
-            'piratez_secondary_accent_color_control',
+            $key . '_control',
             array(
-                'label'    => __('Secondary Accent Color (Pirate/Cyberpunk)', 'piratez-cyberpunk'),
+                'label'    => $dark_labels[$key],
                 'section'  => 'piratez_colors_section',
-                'settings' => 'piratez_secondary_accent_color',
+                'settings' => $key,
             )
-        )
-    );
-
-    // Pirate Gold Color
-    $wp_customize->add_setting(
-        'piratez_gold_color',
-        array(
-            'default'           => '#b8860b',
-            'sanitize_callback' => 'sanitize_hex_color',
-            'transport'         => 'postMessage',
-        )
-    );
-
-    $wp_customize->add_control(
-        new WP_Customize_Color_Control(
-            $wp_customize,
-            'piratez_gold_color_control',
-            array(
-                'label'    => __('Pirate Gold Color', 'piratez-cyberpunk'),
-                'section'  => 'piratez_colors_section',
-                'settings' => 'piratez_gold_color',
-            )
-        )
-    );
-
-    // Background Color
-    $wp_customize->add_setting(
-        'piratez_background_color',
-        array(
-            'default'           => '#ffffff',
-            'sanitize_callback' => 'sanitize_hex_color',
-            'transport'         => 'postMessage',
-        )
-    );
-
-    $wp_customize->add_control(
-        new WP_Customize_Color_Control(
-            $wp_customize,
-            'piratez_background_color_control',
-            array(
-                'label'    => __('Background Color', 'piratez-cyberpunk'),
-                'section'  => 'piratez_colors_section',
-                'settings' => 'piratez_background_color',
-            )
-        )
-    );
+        ));
+    }
 
     // Accent Intensity
     $wp_customize->add_setting(
@@ -213,14 +204,15 @@ function piratez_cyberpunk_customize_register($wp_customize) {
     );
 
     // ============================================
-    // 3. TYPOGRAPHY SETTINGS
+    // 3. TYPOGRAPHY SETTINGS (theme-controlled, blog-friendly)
     // ============================================
     $wp_customize->add_section(
         'piratez_typography_section',
         array(
-            'title'    => __('Typography Settings', 'piratez-cyberpunk'),
-            'priority' => 30,
-            'panel'    => 'piratez_theme_panel',
+            'title'       => __('Typography Settings', 'piratez-cyberpunk'),
+            'description' => __('Control fonts and base text size. Changes apply site-wide.', 'piratez-cyberpunk'),
+            'priority'    => 30,
+            'panel'       => 'piratez_theme_panel',
         )
     );
 
@@ -270,6 +262,57 @@ function piratez_cyberpunk_customize_register($wp_customize) {
                 'Inter'     => 'Inter',
                 'Roboto'    => 'Roboto',
                 'System UI' => 'System UI',
+            ),
+        )
+    );
+
+    // Accent Font (pirate/cyberpunk bits)
+    $wp_customize->add_setting(
+        'piratez_accent_font',
+        array(
+            'default'           => 'Press Start 2P',
+            'sanitize_callback' => 'sanitize_text_field',
+            'transport'         => 'postMessage',
+        )
+    );
+
+    $wp_customize->add_control(
+        'piratez_accent_font_control',
+        array(
+            'label'    => __('Accent Font', 'piratez-cyberpunk'),
+            'section'  => 'piratez_typography_section',
+            'settings' => 'piratez_accent_font',
+            'type'     => 'select',
+            'choices'  => array(
+                'Press Start 2P' => 'Press Start 2P',
+                'Same as heading' => __('Same as heading', 'piratez-cyberpunk'),
+                'Same as body'    => __('Same as body', 'piratez-cyberpunk'),
+            ),
+        )
+    );
+
+    // Base Font Size (px)
+    $wp_customize->add_setting(
+        'piratez_base_font_size',
+        array(
+            'default'           => 16,
+            'sanitize_callback' => 'piratez_sanitize_base_font_size',
+            'transport'         => 'postMessage',
+        )
+    );
+
+    $wp_customize->add_control(
+        'piratez_base_font_size_control',
+        array(
+            'label'       => __('Base Font Size (px)', 'piratez-cyberpunk'),
+            'description' => __('Root font size; all rem-based text scales with it. 14–20 recommended for readability.', 'piratez-cyberpunk'),
+            'section'     => 'piratez_typography_section',
+            'settings'    => 'piratez_base_font_size',
+            'type'        => 'number',
+            'input_attrs' => array(
+                'min'  => 14,
+                'max'  => 22,
+                'step' => 1,
             ),
         )
     );
@@ -621,6 +664,14 @@ function piratez_sanitize_theme_mode($input) {
         return $input;
     }
     return 'light';
+}
+
+/**
+ * Sanitize base font size (14–22px).
+ */
+function piratez_sanitize_base_font_size($input) {
+    $n = absint($input);
+    return max(14, min(22, $n));
 }
 
 /**

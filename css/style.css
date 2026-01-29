@@ -61,38 +61,38 @@ html[data-theme="dark"] {
     --color-accent-gold: #ffd700;
 }
 
-/* Force dark mode backgrounds - highest specificity */
+/* Force dark mode backgrounds - use variables (Customizer Phase PRE 5) */
 html[data-theme="dark"] {
-    background-color: #1a1a2e !important;
-    background: #1a1a2e !important;
+    background-color: var(--color-bg-primary) !important;
+    background: var(--color-bg-primary) !important;
 }
 
 html[data-theme="dark"] body,
 html[data-theme="dark"] body.custom-background,
 html[data-theme="dark"] body.has-background {
-    background-color: #1a1a2e !important;
-    background: #1a1a2e !important;
+    background-color: var(--color-bg-primary) !important;
+    background: var(--color-bg-primary) !important;
     background-image: none !important;
 }
 
 html[data-theme="dark"] #page,
 html[data-theme="dark"] #page.custom-background,
 html[data-theme="dark"] #page.has-background {
-    background-color: #1a1a2e !important;
-    background: #1a1a2e !important;
+    background-color: var(--color-bg-primary) !important;
+    background: var(--color-bg-primary) !important;
     background-image: none !important;
 }
 
 html[data-theme="dark"] .site-content,
 html[data-theme="dark"] .site-content.has-background {
-    background-color: #1a1a2e !important;
-    background: #1a1a2e !important;
+    background-color: var(--color-bg-primary) !important;
+    background: var(--color-bg-primary) !important;
 }
 
 html[data-theme="dark"] .site-header,
 html[data-theme="dark"] .site-footer {
-    background-color: #252540 !important;
-    background: #252540 !important;
+    background-color: var(--color-surface) !important;
+    background: var(--color-surface) !important;
 }
 
 /* Override WordPress custom background */
@@ -143,27 +143,27 @@ body {
     width: 100%;
 }
 
-/* Force light mode backgrounds - highest specificity */
+/* Force light mode backgrounds - use variables (Customizer Phase PRE 5) */
 html[data-theme="light"] {
-    background-color: #ffffff !important;
-    background: #ffffff !important;
+    background-color: var(--color-bg-primary) !important;
+    background: var(--color-bg-primary) !important;
 }
 
 html[data-theme="light"] body,
 html[data-theme="light"] body.custom-background {
-    background-color: #ffffff !important;
-    background: #ffffff !important;
+    background-color: var(--color-bg-primary) !important;
+    background: var(--color-bg-primary) !important;
 }
 
 html[data-theme="light"] #page,
 html[data-theme="light"] #page.custom-background {
-    background-color: #ffffff !important;
-    background: #ffffff !important;
+    background-color: var(--color-bg-primary) !important;
+    background: var(--color-bg-primary) !important;
 }
 
 html[data-theme="light"] .site-content {
-    background-color: #ffffff !important;
-    background: #ffffff !important;
+    background-color: var(--color-bg-primary) !important;
+    background: var(--color-bg-primary) !important;
 }
 
 /* ============================================
