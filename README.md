@@ -13,12 +13,43 @@ A WordPress theme for tech blogs: pirate + cyberpunk style, dark/light mode, and
 - **Sticky header** — Scroll-based; sticks after ~100px (Customizer on/off)
 - **Reading time** — Per-post estimate with optional display
 - **Reading progress bar** — On single posts (optional)
-- **Table of contents** — Collapsible, optional per post
+- **Table of contents** — Floating TOC button + slide-in panel (Phase 1; see below)
 - **Social links shortcode** — `[piratez_social_links]` with optional class
 - **Customizer options** — Logo, colors, layout, sidebar, tagline, accent intensity
 - **Widget areas** — Header top, below menu, sidebar, footer
 - **Responsive** — Mobile-first, 2-column post grid on desktop
-- **Accessibility** — Skip link, keyboard focus, underlined content links
+- **Accessibility** — WCAG 2.1 AA baseline (Phase 2; see below)
+
+---
+
+## Phase 1 — Reading & Navigation UX
+
+Table of contents is on-demand and non-intrusive:
+
+- **Floating TOC button** — Fixed bottom-right (above scroll-to-top), visible on single posts and pages when there are 2+ headings. Toggle opens the TOC panel.
+- **Slide-in panel (desktop)** — Panel slides in from the right (~280px). Lists all h2/h3/h4 with active heading highlighted on scroll.
+- **Bottom-sheet (mobile)** — Same panel appears as a bottom sheet (max 70vh) on viewports ≤1024px.
+- **Scroll threshold** — Button appears when content has 2+ headings; stays visible once shown.
+- **Close options** — Close via × button (top right of panel), ESC key, or (on mobile) tapping a section link.
+- **Keyboard** — Full keyboard navigation; focus moves to first link when panel opens, back to button when closed.
+- **Anchor offset** — Scroll-to-heading accounts for sticky header (configurable `--piratez-sticky-header-height`; 140px desktop, 170px mobile).
+- **Reduced motion** — TOC scroll-to-section uses instant scroll when the user has “Reduce motion” enabled.
+
+TOC can be turned off in **Appearance → Customize** (Table of Contents). It is gated by the theme support flag `piratez-toc` (see THEME_SCOPE.md).
+
+---
+
+## Phase 2 — Accessibility (WCAG 2.1 AA baseline)
+
+Accessibility is always on; there is no toggle.
+
+- **Landmarks** — Single `<main id="primary">` per page; header with `role="banner"`; nav with `aria-label="Primary navigation"`; footer with `role="contentinfo"`.
+- **Skip-to-content** — Focus-only skip link to `#primary`; visible when focused, with clear focus ring.
+- **:focus-visible** — Visible focus outline (2px accent) on menu toggle, dark-mode toggle, TOC FAB, scroll-to-top, nav links, post navigation, header/footer links, and buttons.
+- **Keyboard** — Menus open/close with Enter/Space; mobile menu closes with ESC and returns focus to the toggle. TOC supports ESC and full tab order (Phase 1).
+- **Prefers-reduced-motion** — Smooth scrolling disabled when the system requests reduced motion; reading progress bar and TOC/scroll-to-top transitions disabled; anchor and TOC scroll use instant scroll.
+- **Contrast** — Light and dark mode CSS variables target AA contrast (4.5:1 normal, 3:1 large); see comments in `css/style.css`.
+- **ARIA** — Menu toggle: `aria-expanded`, `aria-controls="primary-menu"`. TOC: `aria-expanded`, `aria-controls`, `aria-label` on panel and FAB. No redundant roles.
 
 ---
 
