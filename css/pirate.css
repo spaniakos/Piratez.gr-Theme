@@ -1,0 +1,331 @@
+/**
+ * Pirate Accent Styles
+ * Playful pirate elements layered on professional foundation
+ *
+ * @package piratez_cyberpunk
+ */
+
+/* ============================================
+   Pirate Decorative Elements
+   ============================================ */
+
+/* Pirate-themed reading time */
+.reading-time::before {
+    content: '⚓ ';
+    font-size: 1em;
+}
+
+.accent-bold .reading-time::before {
+    content: '🏴‍☠️ ';
+}
+
+/* Pirate scroll to top button */
+.scroll-to-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 50px;
+    height: 50px;
+    background-color: var(--color-accent-gold);
+    color: var(--color-text-primary);
+    border: 2px solid var(--color-accent-gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--transition-base);
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.scroll-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.scroll-to-top:hover {
+    background-color: var(--color-accent-primary);
+    border-color: var(--color-accent-primary);
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.accent-bold .scroll-to-top {
+    font-size: 1.75rem;
+}
+
+.accent-bold .scroll-to-top:hover {
+    transform: translateY(-8px) rotate(5deg);
+}
+
+/* Author box pirate theme */
+.author-box {
+    background-color: var(--color-surface);
+    border: 2px solid var(--color-border);
+    border-radius: 8px;
+    padding: var(--spacing-md);
+    margin: var(--spacing-lg) 0;
+    position: relative;
+}
+
+.author-box::before {
+    content: '';
+    display: none;
+}
+
+.accent-subtle .author-box::before {
+    display: none;
+}
+
+.author-box-title {
+    font-family: var(--font-accent);
+    font-size: 0.875rem;
+    color: var(--color-accent-gold);
+    margin-bottom: var(--spacing-sm);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.accent-subtle .author-box-title {
+    font-family: var(--font-heading);
+    color: var(--color-text-primary);
+}
+
+/* Pirate-themed post navigation - Force side by side - AGGRESSIVE */
+.post-navigation,
+.navigation.post-navigation,
+.navigation.post-navigation .nav-links,
+.site-main .post-navigation,
+.site-main .post-navigation .nav-links,
+.site-main .navigation.post-navigation,
+.site-main .navigation.post-navigation .nav-links,
+nav.post-navigation,
+nav.navigation.post-navigation,
+nav.navigation.post-navigation .nav-links {
+    margin: var(--spacing-lg) 0 !important;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    justify-content: space-between !important;
+    align-items: stretch !important;
+    gap: var(--spacing-md) !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    overflow: visible !important;
+    clear: both !important;
+}
+
+/* Target nav-links specifically */
+.post-navigation .nav-links,
+.navigation.post-navigation .nav-links,
+.site-main .post-navigation .nav-links,
+.site-main .navigation.post-navigation .nav-links {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    justify-content: space-between !important;
+    align-items: stretch !important;
+    gap: var(--spacing-md) !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.post-navigation .nav-previous,
+.post-navigation .nav-next,
+.post-navigation .nav-links .nav-previous,
+.post-navigation .nav-links .nav-next,
+.navigation.post-navigation .nav-previous,
+.navigation.post-navigation .nav-next,
+.navigation.post-navigation .nav-links .nav-previous,
+.navigation.post-navigation .nav-links .nav-next,
+.site-main .post-navigation .nav-previous,
+.site-main .post-navigation .nav-next,
+.site-main .post-navigation .nav-links .nav-previous,
+.site-main .post-navigation .nav-links .nav-next,
+.site-main .navigation.post-navigation .nav-previous,
+.site-main .navigation.post-navigation .nav-next,
+.site-main .navigation.post-navigation .nav-links .nav-previous,
+.site-main .navigation.post-navigation .nav-links .nav-next,
+nav.post-navigation .nav-previous,
+nav.post-navigation .nav-next,
+nav.post-navigation .nav-links .nav-previous,
+nav.post-navigation .nav-links .nav-next {
+    flex: 1 1 0% !important;
+    min-width: 0 !important;
+    max-width: 50% !important;
+    box-sizing: border-box !important;
+    display: block !important;
+    width: auto !important;
+    float: none !important;
+    clear: none !important;
+    position: relative !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.post-navigation a {
+    display: block;
+    width: 100%;
+    padding: var(--spacing-sm);
+    background-color: var(--color-surface);
+    border: 2px solid var(--color-border);
+    border-radius: 4px;
+    transition: all var(--transition-base);
+    position: relative;
+    box-sizing: border-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.post-navigation .nav-subtitle {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 0.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.post-navigation .nav-title {
+    display: block;
+    font-size: 0.875rem;
+    color: var(--color-text-primary);
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+}
+
+.post-navigation .nav-previous a::before {
+    content: '⚓ ';
+    margin-right: var(--spacing-xs);
+}
+
+.post-navigation .nav-next a::before {
+    content: '⚓ ';
+    margin-right: var(--spacing-xs);
+}
+
+.post-navigation .nav-next a::after {
+    content: '';
+}
+
+.accent-bold .post-navigation .nav-previous a::before {
+    content: '🏴‍☠️ ';
+}
+
+.accent-bold .post-navigation .nav-next a::before {
+    content: '🏴‍☠️ ';
+}
+
+.accent-bold .post-navigation .nav-next a::after {
+    content: '';
+}
+
+.post-navigation a:hover {
+    border-color: var(--color-accent-gold);
+    background-color: var(--color-bg-secondary);
+    transform: translateX(-3px);
+}
+
+.post-navigation .nav-next:hover {
+    transform: translateX(3px);
+}
+
+.post-navigation a:hover .nav-title {
+    color: var(--color-accent-primary);
+}
+
+/* Pirate gold accents */
+.pirate-accent {
+    color: var(--color-accent-gold);
+}
+
+.accent-bold .entry-meta .reading-time {
+    font-weight: 600;
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+}
+
+/* Pirate-themed section dividers */
+.pirate-divider {
+    text-align: center;
+    margin: var(--spacing-lg) 0;
+    font-size: 2rem;
+    color: var(--color-accent-gold);
+    opacity: 0.5;
+}
+
+.accent-subtle .pirate-divider {
+    display: none;
+}
+
+/* Related posts pirate theme */
+.related-posts-title {
+    font-family: var(--font-accent);
+    font-size: 0.875rem;
+    color: var(--color-accent-gold);
+    margin-bottom: var(--spacing-md);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.accent-subtle .related-posts-title {
+    font-family: var(--font-heading);
+    color: var(--color-text-primary);
+}
+
+/* Pirate-themed badges */
+.pirate-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background-color: var(--color-accent-gold);
+    color: var(--color-text-primary);
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.accent-subtle .pirate-badge {
+    background-color: var(--color-accent-primary);
+    color: #ffffff;
+}
+
+/* Social sharing pirate accents */
+.social-sharing .share-label {
+    font-family: var(--font-accent);
+    font-size: 0.75rem;
+    color: var(--color-accent-gold);
+    margin-bottom: var(--spacing-xs);
+}
+
+.accent-subtle .social-sharing .share-label {
+    font-family: var(--font-body);
+    color: var(--color-text-secondary);
+}
+
+/* Dark mode pirate adjustments */
+[data-theme="dark"] .scroll-to-top {
+    background-color: var(--color-accent-gold);
+    color: var(--color-text-primary);
+}
+
+[data-theme="dark"] .author-box::before {
+    display: none;
+}
+
+/* Removed - no longer needed
+[data-theme="dark"] .author-box::before {
+    display: none;
+}
+
+[data-theme="dark"] .pirate-divider {
+    opacity: 0.8;
+}

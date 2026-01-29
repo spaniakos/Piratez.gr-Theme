@@ -1,0 +1,177 @@
+/**
+ * Cyberpunk Accent Styles
+ * Subtle tech effects layered on professional foundation
+ *
+ * @package piratez_cyberpunk
+ */
+
+/* ============================================
+   Cyberpunk Effects
+   ============================================ */
+
+/* Subtle neon glow on hover */
+.accent-balanced .post-card:hover,
+.accent-bold .post-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 168, 255, 0.2);
+    border-color: rgba(0, 168, 255, 0.3);
+}
+
+.accent-bold .post-card:hover {
+    box-shadow: 0 4px 20px rgba(0, 168, 255, 0.4);
+}
+
+/* Cyberpunk button styles */
+.cyberpunk-button,
+.read-more {
+    position: relative;
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background-color: var(--color-accent-primary);
+    color: #ffffff !important;
+    border: 2px solid var(--color-accent-primary);
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    transition: all var(--transition-base);
+    overflow: hidden;
+    text-decoration: none;
+}
+
+.cyberpunk-button::before,
+.read-more::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s;
+}
+
+.cyberpunk-button:hover::before,
+.read-more:hover::before {
+    left: 100%;
+}
+
+.accent-balanced .cyberpunk-button:hover,
+.accent-balanced .read-more:hover {
+    box-shadow: 0 0 15px rgba(0, 168, 255, 0.5);
+    transform: translateY(-2px);
+    color: #ffffff !important;
+    background-color: var(--color-accent-primary);
+    border-color: var(--color-accent-primary);
+}
+
+.accent-bold .cyberpunk-button:hover,
+.accent-bold .read-more:hover {
+    box-shadow: 0 0 25px rgba(0, 168, 255, 0.7);
+    transform: translateY(-2px);
+    color: #ffffff !important;
+    background-color: var(--color-accent-primary);
+    border-color: var(--color-accent-primary);
+}
+
+/* Reading progress bar cyberpunk style */
+.reading-progress-bar {
+    height: 3px;
+    background: linear-gradient(90deg, var(--color-accent-primary), var(--color-accent-secondary));
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    transition: width 0.1s ease;
+}
+
+.accent-bold .reading-progress-bar {
+    box-shadow: 0 0 10px rgba(0, 168, 255, 0.8);
+}
+
+/* Cyberpunk link effects */
+.accent-balanced a:hover {
+    text-shadow: 0 0 5px rgba(0, 168, 255, 0.3);
+}
+
+.accent-bold a:hover {
+    text-shadow: 0 0 8px rgba(0, 168, 255, 0.5);
+}
+
+/* Subtle glitch effect (very minimal) */
+@keyframes cyberpunk-glitch {
+    0%, 100% { transform: translate(0); }
+    20% { transform: translate(-1px, 1px); }
+    40% { transform: translate(-1px, -1px); }
+    60% { transform: translate(1px, 1px); }
+    80% { transform: translate(1px, -1px); }
+}
+
+.accent-bold .entry-title:hover {
+    animation: cyberpunk-glitch 0.3s infinite;
+}
+
+/* Cyberpunk input focus effects */
+.accent-balanced input:focus,
+.accent-balanced textarea:focus,
+.accent-balanced select:focus {
+    outline: none;
+    border-color: var(--color-accent-primary);
+    box-shadow: 0 0 0 3px rgba(0, 168, 255, 0.1);
+}
+
+.accent-bold input:focus,
+.accent-bold textarea:focus,
+.accent-bold select:focus {
+    box-shadow: 0 0 0 3px rgba(0, 168, 255, 0.2);
+}
+
+/* Table of contents cyberpunk styling */
+.toc-container {
+    border-left: 3px solid var(--color-accent-primary);
+    padding-left: 1rem;
+}
+
+.accent-bold .toc-container {
+    box-shadow: -3px 0 10px rgba(0, 168, 255, 0.2);
+}
+
+/* Social sharing cyberpunk effects */
+.social-sharing a {
+    transition: all var(--transition-base);
+}
+
+.accent-balanced .social-sharing a:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 168, 255, 0.3);
+}
+
+.accent-bold .social-sharing a:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 168, 255, 0.5);
+}
+
+/* Dark mode cyberpunk adjustments */
+[data-theme="dark"] .cyberpunk-button,
+[data-theme="dark"] .read-more {
+    background-color: var(--color-accent-primary);
+    border-color: var(--color-accent-primary);
+    color: #ffffff !important;
+}
+
+[data-theme="dark"] .cyberpunk-button:hover,
+[data-theme="dark"] .read-more:hover {
+    background-color: var(--color-accent-secondary);
+    border-color: var(--color-accent-secondary);
+    color: #ffffff !important;
+}
+
+/* Light mode - ensure readable text */
+[data-theme="light"] .read-more {
+    color: #ffffff !important;
+}
+
+[data-theme="light"] .read-more:hover {
+    color: #ffffff !important;
+    background-color: var(--color-accent-primary);
+}
