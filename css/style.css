@@ -10,7 +10,7 @@
    ============================================ */
 
 :root {
-    /* Professional Foundation Colors (makeasite.gr style) */
+    /* Professional Foundation Colors (makeasite.gr style). Light mode: AA contrast target. */
     --color-bg-primary: #ffffff;
     --color-bg-secondary: #f5f5f5;
     --color-surface: #ffffff;
@@ -18,7 +18,7 @@
     --color-text-secondary: #666666;
     --color-border: #e0e0e0;
 
-    /* Professional Accent Colors */
+    /* Professional Accent Colors (AA contrast on white where used for text) */
     --color-accent-primary: #0066cc;
     --color-accent-secondary: #cc0066;
     --color-accent-gold: #b8860b;
@@ -47,7 +47,7 @@
     --transition-fast: 0.15s ease;
 }
 
-/* Dark Mode Variables */
+/* Dark Mode Variables (AA contrast target for dark backgrounds) */
 html[data-theme="dark"] {
     --color-bg-primary: #1a1a2e;
     --color-bg-secondary: #0f0f1a;
@@ -1997,7 +1997,10 @@ body:not(.sidebar-enabled) .site-content {
     word-wrap: normal !important;
 }
 
-.screen-reader-text:focus {
+.screen-reader-text:focus,
+.skip-link:focus,
+.screen-reader-text:focus-visible,
+.skip-link:focus-visible {
     background-color: var(--color-surface);
     border-radius: 3px;
     box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
@@ -2014,4 +2017,48 @@ body:not(.sidebar-enabled) .site-content {
     top: 5px;
     width: auto;
     z-index: 100000;
+}
+
+.skip-link:focus-visible {
+    outline: 2px solid var(--color-accent-primary);
+    outline-offset: 2px;
+}
+
+/* ============================================
+   Focus visible (WCAG 2.1 – keyboard focus indicator)
+   ============================================ */
+
+.menu-toggle:focus-visible,
+.dark-mode-toggle:focus-visible,
+.piratez-toc-fab:focus-visible,
+.scroll-to-top:focus-visible,
+.primary-menu a:focus-visible,
+.post-navigation a:focus-visible,
+.piratez-toc-panel .toc-link:focus-visible,
+.site-header a:focus-visible,
+.site-footer a:focus-visible,
+.site-footer-bottom a:focus-visible,
+button:focus-visible {
+    outline: 2px solid var(--color-accent-primary);
+    outline-offset: 2px;
+}
+
+/* ============================================
+   Prefers reduced motion
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    .reading-progress-bar {
+        transition: none;
+    }
+
+    .piratez-toc-fab,
+    .piratez-toc-panel,
+    .scroll-to-top {
+        transition: none;
+    }
 }

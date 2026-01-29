@@ -17,27 +17,35 @@
             return;
         }
 
+        function closeMenu() {
+            navigation.classList.remove('toggled');
+            menuToggle.setAttribute('aria-expanded', 'false');
+            if (body) body.classList.remove('menu-open');
+        }
+
         menuToggle.addEventListener('click', function (e) {
             e.preventDefault();
             e.stopPropagation();
             const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
             menuToggle.setAttribute('aria-expanded', !isExpanded);
             navigation.classList.toggle('toggled');
-            if (body) {
-                body.classList.toggle('menu-open');
-            }
+            if (body) body.classList.toggle('menu-open');
         });
 
         document.addEventListener('click', function (event) {
             if (!navigation.contains(event.target) && !menuToggle.contains(event.target)) {
-                if (navigation.classList.contains('toggled')) {
-                    navigation.classList.remove('toggled');
-                    menuToggle.setAttribute('aria-expanded', 'false');
-                    body.classList.remove('menu-open');
-                }
+                if (navigation.classList.contains('toggled')) closeMenu();
+            }
+        });
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && navigation.classList.contains('toggled')) {
+                closeMenu();
+                menuToggle.focus();
             }
         });
     }
+
 
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initMobileMenu);
@@ -45,7 +53,8 @@
         initMobileMenu();
     }
 
-    // Smooth scroll for anchor links
+    // Smooth scroll for anchor links (respect prefers-reduced-motion)
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             const href = this.getAttribute('href');
@@ -57,7 +66,7 @@
             if (target) {
                 e.preventDefault();
                 target.scrollIntoView({
-                    behavior: 'smooth',
+                    behavior: prefersReducedMotion ? 'auto' : 'smooth',
                     block: 'start'
                 });
             }

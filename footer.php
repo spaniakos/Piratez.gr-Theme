@@ -20,7 +20,7 @@
             }
         }
         if ($footer_active) : ?>
-            <footer id="colophon" class="site-footer">
+            <footer id="colophon" class="site-footer" role="contentinfo">
                 <div class="container">
                     <div class="footer-widgets footer-columns-<?php echo esc_attr($footer_columns); ?>">
                         <?php

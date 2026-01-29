@@ -30,7 +30,7 @@
         </div>
     <?php endif; ?>
 
-    <header id="masthead" class="site-header">
+    <header id="masthead" class="site-header" role="banner">
         <div class="container">
             <div class="site-header-top">
                 <div class="site-branding">
@@ -47,7 +47,7 @@
                     ?>
                 </div><!-- .site-branding -->
 
-                <nav id="site-navigation" class="main-navigation">
+                <nav id="site-navigation" class="main-navigation" aria-label="<?php esc_attr_e('Primary navigation', 'piratez-cyberpunk'); ?>">
                     <button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false">
                         <span class="menu-toggle-icon">
                             <span></span>
