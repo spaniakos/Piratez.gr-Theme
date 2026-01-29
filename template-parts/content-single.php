@@ -43,8 +43,8 @@
     <?php endif; ?>
 
     <?php
-    // Table of Contents
-    if (get_theme_mod('piratez_table_of_contents', true)) {
+    // Table of Contents (gated by piratez-toc feature flag)
+    if (current_theme_supports('piratez-toc') && get_theme_mod('piratez_table_of_contents', true)) {
         get_template_part('template-parts/table-of-contents');
     }
     ?>

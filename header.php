@@ -14,7 +14,7 @@
     <?php wp_head(); ?>
 </head>
 
-<body <?php body_class(); ?> data-default-theme="<?php echo esc_attr(get_theme_mod('piratez_dark_mode_default', 'light')); ?>" data-accent-intensity="<?php echo esc_attr(get_theme_mod('piratez_accent_intensity', 50)); ?>" data-reading-time-enabled="<?php echo esc_attr(get_theme_mod('piratez_reading_time', true) ? 'true' : 'false'); ?>" data-toc-enabled="<?php echo esc_attr(get_theme_mod('piratez_table_of_contents', true) ? 'true' : 'false'); ?>">
+<body <?php body_class(); ?> data-default-theme="<?php echo esc_attr(get_theme_mod('piratez_dark_mode_default', 'light')); ?>" data-accent-intensity="<?php echo esc_attr(get_theme_mod('piratez_accent_intensity', 50)); ?>" data-reading-time-enabled="<?php echo esc_attr(get_theme_mod('piratez_reading_time', true) ? 'true' : 'false'); ?>" data-toc-enabled="<?php echo esc_attr((current_theme_supports('piratez-toc') && get_theme_mod('piratez_table_of_contents', true)) ? 'true' : 'false'); ?>">
 <?php wp_body_open(); ?>
 
 <div id="page" class="site">

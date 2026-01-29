@@ -39,6 +39,8 @@
     --container-width: 1200px;
     --content-width: 800px;
     --sidebar-width: 300px;
+    --piratez-sticky-header-height: 140px;
+    /* offset for sticky header when scrolling to anchors */
 
     /* Transitions */
     --transition-base: 0.3s ease;
@@ -232,6 +234,19 @@ a:focus {
 .comment-content a:hover,
 .comment-content a:focus {
     text-decoration: underline;
+}
+
+/* Scroll-to-anchor: headings sit below sticky header */
+.entry-content h2,
+.entry-content h3,
+.entry-content h4 {
+    scroll-margin-top: var(--piratez-sticky-header-height);
+}
+
+@media (max-width: 1024px) {
+    :root {
+        --piratez-sticky-header-height: 170px;
+    }
 }
 
 /* ============================================
@@ -1374,72 +1389,201 @@ body:not(.sidebar-enabled) .site-content {
 }
 
 /* ============================================
-   Table of Contents
+   Table of Contents (floating FAB + panel)
    ============================================ */
 
-.toc-container {
-    background-color: var(--color-bg-secondary);
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
-    padding: var(--spacing-md);
-    margin: var(--spacing-lg) 0;
-}
-
-.toc-title {
-    font-size: 1.25rem;
-    margin-bottom: var(--spacing-sm);
-    color: var(--color-text-primary);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    cursor: pointer;
-    user-select: none;
-}
-
-.toc-toggle {
-    background: none;
+.piratez-toc-root {
+    position: static;
+    pointer-events: none;
+    margin: 0;
+    padding: 0;
     border: none;
+    display: block;
+}
+
+.piratez-toc-root>* {
+    pointer-events: auto;
+}
+
+/* FAB: anchored above scroll-to-top (scroll-to-top is bottom 2rem, 50px tall in pirate.css) */
+.piratez-toc-fab {
+    position: fixed;
+    bottom: calc(5.75rem + 20px);
+    /* 2rem + 50px + 0.5rem gap + 20px extra above scroll-to-top */
+    right: 2rem;
+    z-index: 10001;
+    /* above open menu (9999), below skip-link (100000) */
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    color: var(--color-text-primary);
     cursor: pointer;
-    padding: 0.25rem 0.5rem;
-    font-size: 0.75rem;
-    color: var(--color-text-secondary);
-    transition: transform var(--transition-base);
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-left: var(--spacing-sm);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(0.5rem);
+    transition: opacity var(--transition-base), visibility var(--transition-base), transform var(--transition-base);
 }
 
-.toc-toggle:hover {
+.piratez-toc-root.toc-fab-visible .piratez-toc-fab {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.piratez-toc-fab:hover {
+    background: var(--color-bg-secondary);
     color: var(--color-accent-primary);
 }
 
-.toc-toggle-icon {
-    display: inline-block;
-    transition: transform var(--transition-base);
-    font-size: 0.875rem;
+.piratez-toc-fab-icon {
+    font-size: 1.25rem;
+    line-height: 1;
 }
 
-.toc-container.toc-collapsed .toc-toggle-icon {
-    transform: rotate(-90deg);
-}
-
-.toc-list {
+/* Panel: slide-in desktop, bottom-sheet mobile */
+.piratez-toc-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 280px;
+    max-width: 90vw;
+    height: 100vh;
+    max-height: 100vh;
+    z-index: 10001;
+    /* above open menu (9999), below skip-link (100000) */
+    background: var(--color-surface);
+    border-left: 1px solid var(--color-border);
+    box-shadow: -4px 0 16px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    transition: max-height var(--transition-base), opacity var(--transition-base);
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    visibility: hidden;
+    transition: transform var(--transition-base), visibility var(--transition-base);
 }
 
-.toc-container.toc-collapsed .toc-list {
-    max-height: 0;
-    opacity: 0;
-    display: none;
+.piratez-toc-root.toc-panel-open .piratez-toc-panel {
+    transform: translateX(0);
+    visibility: visible;
 }
 
-.toc-container:not(.toc-collapsed) .toc-list {
-    max-height: 2000px;
-    /* Large enough for most TOCs */
-    opacity: 1;
+.piratez-toc-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md);
+    border-bottom: 1px solid var(--color-border);
+    flex-shrink: 0;
+}
+
+.piratez-toc-panel .toc-title {
+    font-size: 1.25rem;
+    margin: 0;
+    color: var(--color-text-primary);
+    flex: 1;
+}
+
+.piratez-toc-panel-close {
+    flex-shrink: 0;
+    width: 2.25rem;
+    height: 2.25rem;
+    padding: 0;
+    border: none;
+    border-radius: 4px;
+    background: transparent;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    line-height: 1;
+    transition: color var(--transition-fast), background var(--transition-fast);
+}
+
+.piratez-toc-panel-close:hover {
+    color: var(--color-text-primary);
+    background: var(--color-bg-secondary);
+}
+
+.piratez-toc-panel-close:focus-visible {
+    outline: 2px solid var(--color-accent-primary);
+    outline-offset: 2px;
+}
+
+.piratez-toc-panel .toc-list {
+    list-style: none;
+    margin: 0;
+    padding: var(--spacing-sm);
+    overflow-y: auto;
+    flex: 1;
+}
+
+.piratez-toc-panel .toc-item {
+    margin-bottom: var(--spacing-xs);
+}
+
+.piratez-toc-panel .toc-item.toc-level-h3 {
+    padding-left: var(--spacing-md);
+}
+
+.piratez-toc-panel .toc-item.toc-level-h4 {
+    padding-left: var(--spacing-lg);
+}
+
+.piratez-toc-panel .toc-link {
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    transition: color var(--transition-fast);
     display: block;
+    padding: 0.25rem 0;
+}
+
+.piratez-toc-panel .toc-link:hover {
+    color: var(--color-accent-primary);
+    text-decoration: none;
+}
+
+.piratez-toc-panel .toc-item.active .toc-link {
+    color: var(--color-accent-primary);
+    font-weight: 600;
+    position: relative;
+    padding-left: var(--spacing-sm);
+}
+
+.piratez-toc-panel .toc-item.active .toc-link::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--color-accent-primary);
+}
+
+/* Mobile: bottom-sheet */
+@media (max-width: 1024px) {
+    .piratez-toc-panel {
+        top: auto;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        max-height: 70vh;
+        height: auto;
+        border-left: none;
+        border-top: 1px solid var(--color-border);
+        border-radius: 12px 12px 0 0;
+        transform: translateY(100%);
+    }
+
+    .piratez-toc-root.toc-panel-open .piratez-toc-panel {
+        transform: translateY(0);
+    }
 }
 
 .toc-list {
@@ -1798,6 +1942,12 @@ body:not(.sidebar-enabled) .site-content {
         width: 45px;
         height: 45px;
         font-size: 1.25rem;
+    }
+
+    /* TOC FAB: above scroll-to-top in this breakpoint (scroll-to-top 1rem + 45px) */
+    .piratez-toc-fab {
+        bottom: calc(4.5rem + 20px);
+        right: 1rem;
     }
 }
 

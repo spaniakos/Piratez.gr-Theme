@@ -77,6 +77,11 @@ function piratez_cyberpunk_setup() {
 
     // Add support for block styles
     add_theme_support('wp-block-styles');
+
+    // Feature flags (see THEME_SCOPE.md)
+    add_theme_support('piratez-toc');
+    add_theme_support('piratez-accessibility');
+    add_theme_support('piratez-ai-index');
 }
 add_action('after_setup_theme', 'piratez_cyberpunk_setup');
 
@@ -161,8 +166,8 @@ function piratez_cyberpunk_scripts() {
         wp_enqueue_script('piratez-reading-progress', get_template_directory_uri() . '/js/reading-progress.js', array('piratez-theme'), PIRATEZ_VERSION, true);
     }
 
-    // Table of contents JavaScript - only if enabled
-    if (get_theme_mod('piratez_table_of_contents', true)) {
+    // Table of contents JavaScript - only if theme supports and Customizer enabled
+    if (current_theme_supports('piratez-toc') && get_theme_mod('piratez_table_of_contents', true)) {
         wp_enqueue_script('piratez-toc', get_template_directory_uri() . '/js/toc.js', array('piratez-theme'), PIRATEZ_VERSION, true);
     }
 

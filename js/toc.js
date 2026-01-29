@@ -1,121 +1,162 @@
 /**
- * Table of Contents Generator
+ * Table of Contents — Floating button + slide-in panel
  *
  * @package piratez_cyberpunk
  */
 
-(function() {
+(function () {
     'use strict';
 
+    const SCROLL_THRESHOLD = 100;
+    const TOC_PANEL_ID = 'piratez-toc-panel';
+    const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     function generateTableOfContents() {
-        // Check if TOC is enabled via data attribute
         const tocEnabled = document.body.getAttribute('data-toc-enabled');
         if (tocEnabled === 'false') {
-            return; // TOC is disabled
+            return;
         }
 
+        const tocRoot = document.getElementById('toc-root');
         const entryContent = document.querySelector('.entry-content');
-        if (!entryContent) {
+        if (!tocRoot || !entryContent) {
             return;
         }
 
-        // Check if TOC already exists
-        if (document.querySelector('.toc-container')) {
-            return;
-        }
-
-        // Find all headings (h2, h3, h4)
         const headings = entryContent.querySelectorAll('h2, h3, h4');
         if (headings.length < 2) {
-            return; // Need at least 2 headings
+            return;
         }
 
-        // Create TOC container
-        const tocContainer = document.createElement('div');
-        tocContainer.className = 'toc-container';
-        tocContainer.setAttribute('role', 'navigation');
-        tocContainer.setAttribute('aria-label', 'Table of Contents');
+        // Ensure headings have IDs
+        headings.forEach((heading, index) => {
+            if (!heading.id) {
+                heading.id = 'heading-' + index + '-' + heading.textContent.toLowerCase()
+                    .replace(/[^a-z0-9]+/g, '-')
+                    .replace(/^-+|-+$/g, '');
+            }
+        });
 
-        const tocTitle = document.createElement('h3');
-        tocTitle.className = 'toc-title';
-        tocTitle.textContent = 'Table of Contents';
-        
-        // Add toggle button to TOC title
-        const tocToggle = document.createElement('button');
-        tocToggle.className = 'toc-toggle';
-        tocToggle.setAttribute('aria-expanded', 'false');
-        tocToggle.setAttribute('aria-label', 'Toggle Table of Contents');
-        tocToggle.innerHTML = '<span class="toc-toggle-icon">▼</span>';
-        tocTitle.appendChild(tocToggle);
-        
-        tocContainer.appendChild(tocTitle);
+        // Panel (nav list)
+        const panel = document.createElement('div');
+        panel.id = TOC_PANEL_ID;
+        panel.className = 'piratez-toc-panel';
+        panel.setAttribute('role', 'navigation');
+        panel.setAttribute('aria-label', 'Table of Contents');
+        panel.hidden = true;
+
+        const panelHeader = document.createElement('div');
+        panelHeader.className = 'piratez-toc-panel-header';
+
+        const panelTitle = document.createElement('h3');
+        panelTitle.className = 'toc-title';
+        panelTitle.textContent = 'Table of Contents';
+        panelHeader.appendChild(panelTitle);
+
+        const closeBtn = document.createElement('button');
+        closeBtn.type = 'button';
+        closeBtn.className = 'piratez-toc-panel-close';
+        closeBtn.setAttribute('aria-label', 'Close table of contents');
+        closeBtn.innerHTML = '<span aria-hidden="true">&times;</span>';
+        panelHeader.appendChild(closeBtn);
+
+        panel.appendChild(panelHeader);
 
         const tocList = document.createElement('ul');
         tocList.className = 'toc-list';
-        
-        // Start collapsed (will be controlled by CSS)
-        tocContainer.classList.add('toc-collapsed');
 
-        // Generate IDs for headings and create TOC items
-        headings.forEach((heading, index) => {
-            // Generate unique ID if not present
-            let id = heading.id;
-            if (!id) {
-                id = 'heading-' + index + '-' + heading.textContent.toLowerCase()
-                    .replace(/[^a-z0-9]+/g, '-')
-                    .replace(/^-+|-+$/g, '');
-                heading.id = id;
-            }
-
-            // Create TOC item
+        headings.forEach((heading) => {
             const tocItem = document.createElement('li');
             tocItem.className = 'toc-item toc-level-' + heading.tagName.toLowerCase();
-
             const tocLink = document.createElement('a');
-            tocLink.href = '#' + id;
+            tocLink.href = '#' + heading.id;
             tocLink.textContent = heading.textContent;
             tocLink.className = 'toc-link';
-            tocLink.addEventListener('click', function(e) {
+            tocLink.addEventListener('click', function (e) {
                 e.preventDefault();
-                const target = document.getElementById(id);
+                const target = document.getElementById(heading.id);
                 if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                    // Update URL without jumping
-                    history.pushState(null, null, '#' + id);
+                    target.scrollIntoView({ behavior: REDUCED_MOTION ? 'auto' : 'smooth', block: 'start' });
+                    history.pushState(null, null, '#' + heading.id);
+                }
+                if (window.matchMedia('(max-width: 1024px)').matches) {
+                    setPanelOpen(false);
                 }
             });
-
             tocItem.appendChild(tocLink);
             tocList.appendChild(tocItem);
         });
 
-        tocContainer.appendChild(tocList);
+        panel.appendChild(tocList);
+        tocRoot.appendChild(panel);
 
-        // Toggle functionality
-        tocToggle.addEventListener('click', function(e) {
-            e.stopPropagation();
-            const isExpanded = this.getAttribute('aria-expanded') === 'true';
-            this.setAttribute('aria-expanded', !isExpanded);
-            tocContainer.classList.toggle('toc-collapsed');
-        });
+        // FAB button
+        const fab = document.createElement('button');
+        fab.type = 'button';
+        fab.className = 'piratez-toc-fab';
+        fab.setAttribute('aria-label', 'Table of contents');
+        fab.setAttribute('aria-expanded', 'false');
+        fab.setAttribute('aria-controls', TOC_PANEL_ID);
+        fab.innerHTML = '<span class="piratez-toc-fab-icon" aria-hidden="true">≡</span>';
+        tocRoot.insertBefore(fab, panel);
 
-        // Insert TOC after first paragraph or at the beginning
-        const firstParagraph = entryContent.querySelector('p');
-        if (firstParagraph && firstParagraph.nextSibling) {
-            entryContent.insertBefore(tocContainer, firstParagraph.nextSibling);
-        } else {
-            entryContent.insertBefore(tocContainer, entryContent.firstChild);
+        tocRoot.setAttribute('aria-hidden', 'false');
+
+        // Show FAB when TOC exists; also show after scroll threshold (so it stays visible when scrolling)
+        tocRoot.classList.add('toc-fab-visible');
+
+        function setPanelOpen(open) {
+            const isOpen = !!open;
+            fab.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+            panel.hidden = !isOpen;
+            tocRoot.classList.toggle('toc-panel-open', isOpen);
+            if (isOpen) {
+                const firstLink = tocList.querySelector('.toc-link');
+                if (firstLink) {
+                    firstLink.focus();
+                }
+            } else {
+                fab.focus();
+            }
         }
 
-        // Highlight active TOC item on scroll
+        fab.addEventListener('click', function () {
+            setPanelOpen(panel.hidden);
+        });
+
+        closeBtn.addEventListener('click', function () {
+            setPanelOpen(false);
+        });
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && !panel.hidden) {
+                setPanelOpen(false);
+            }
+        });
+
+        // Scroll threshold: show FAB after scrolling down (only add class, never remove — keeps FAB discoverable)
+        let ticking = false;
+        function updateFabVisible() {
+            if (window.pageYOffset > SCROLL_THRESHOLD) {
+                tocRoot.classList.add('toc-fab-visible');
+            }
+        }
+        function onScrollThreshold() {
+            if (!ticking) {
+                window.requestAnimationFrame(function () {
+                    updateFabVisible();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }
+        window.addEventListener('scroll', onScrollThreshold, { passive: true });
+        updateFabVisible();
+
         highlightActiveTOCItem(headings, tocList);
     }
 
     function highlightActiveTOCItem(headings, tocList) {
-        const tocLinks = tocList.querySelectorAll('.toc-link');
         const tocItems = tocList.querySelectorAll('.toc-item');
 
         function updateActiveItem() {
@@ -145,7 +186,7 @@
         let ticking = false;
         function onScroll() {
             if (!ticking) {
-                window.requestAnimationFrame(function() {
+                window.requestAnimationFrame(function () {
                     updateActiveItem();
                     ticking = false;
                 });
@@ -154,10 +195,9 @@
         }
 
         window.addEventListener('scroll', onScroll, { passive: true });
-        updateActiveItem(); // Initial update
+        updateActiveItem();
     }
 
-    // Initialize
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', generateTableOfContents);
     } else {

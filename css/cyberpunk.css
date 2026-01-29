@@ -127,12 +127,11 @@
 }
 
 /* Table of contents cyberpunk styling */
-.toc-container {
+.piratez-toc-panel {
     border-left: 3px solid var(--color-accent-primary);
-    padding-left: 1rem;
 }
 
-.accent-bold .toc-container {
+.accent-bold .piratez-toc-panel {
     box-shadow: -3px 0 10px rgba(0, 168, 255, 0.2);
 }
 

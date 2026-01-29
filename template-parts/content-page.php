@@ -17,6 +17,12 @@
         </div>
     <?php endif; ?>
 
+    <?php
+    if (current_theme_supports('piratez-toc') && get_theme_mod('piratez_table_of_contents', true)) {
+        get_template_part('template-parts/table-of-contents');
+    }
+    ?>
+
     <div class="entry-content">
         <?php
         the_content();
