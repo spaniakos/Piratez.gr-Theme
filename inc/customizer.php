@@ -441,6 +441,11 @@ function piratez_cyberpunk_customize_register($wp_customize) {
         'related_posts'       => __('Related Posts', 'piratez-cyberpunk'),
         'scroll_to_top'      => __('Scroll to Top Button', 'piratez-cyberpunk'),
         'social_sharing'     => __('Social Sharing Buttons', 'piratez-cyberpunk'),
+        'post_date'          => __('Post Date', 'piratez-cyberpunk'),
+        'post_author'        => __('Post Author', 'piratez-cyberpunk'),
+        'post_updated'       => __('Last Updated Date', 'piratez-cyberpunk'),
+        'post_categories'    => __('Post Categories', 'piratez-cyberpunk'),
+        'post_tags'          => __('Post Tags', 'piratez-cyberpunk'),
     );
 
     foreach ($blog_features as $feature => $label) {

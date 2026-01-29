@@ -16,6 +16,7 @@ A WordPress theme for tech blogs: pirate + cyberpunk style, dark/light mode, and
 - **Table of contents** — Floating TOC button + slide-in panel (Phase 1; see below)
 - **Editorial callouts** — Shortcodes: PirateZ Take, Hard Truth, Warning, Note (Phase 3; see below)
 - **Social links shortcode** — `[piratez_social_links]` with optional class
+- **Post metadata** — Date, author, “Updated” when modified, categories/tags; all toggleable in Customizer (Phase 4; see below)
 - **Customizer options** — Logo, colors, layout, sidebar, tagline, accent intensity
 - **Widget areas** — Header top, below menu, sidebar, footer
 - **Responsive** — Mobile-first, 2-column post grid on desktop
@@ -67,6 +68,20 @@ All four accept an optional `title="Your label"` attribute. Usage and test snipp
 
 ---
 
+## Phase 4 — Post metadata (complete)
+
+Post date, author, and “Updated” (when modified ≠ published) are output via template tags and can be toggled in **Appearance → Customize → Blog Features**:
+
+- **Post Date** — Show “Posted on [date]” (default on).
+- **Post Author** — Show “by [author]” (default on).
+- **Last Updated Date** — Show “Updated [date]” when the post was modified after publishing (default on).
+- **Post Categories** — Show “Posted in” categories in entry footer on single posts (default on).
+- **Post Tags** — Show “Tagged” tags in entry footer on single posts (default on).
+
+Single and archive/loop templates use `piratez_posted_on()` and `piratez_posted_by()` from `inc/template-tags.php`; both respect the Customizer toggles.
+
+---
+
 ## Installation
 
 1. Download or clone this repo into `wp-content/themes/`.
@@ -111,6 +126,7 @@ See `SHORTCODE-TEST-GUIDELINES.md` for copy-paste test snippets.
 - **Layout** — Sidebar on/off, posts per page
 - **Header** — Sticky header, tagline display
 - **Footer** — Copyright text
+- **Blog Features** — Reading time, progress bar, TOC, author box, related posts, scroll-to-top, social sharing; **post metadata** (Phase 4): post date, post author, last updated date, post categories, post tags
 - **Social Media** — URLs for Twitter, Facebook, Instagram, LinkedIn, GitHub, YouTube, Email
 
 ---

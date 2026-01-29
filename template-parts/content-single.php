@@ -12,19 +12,8 @@
         the_title('<h1 class="entry-title">', '</h1>');
         ?>
         <div class="entry-meta">
-            <span class="posted-on">
-                <time datetime="<?php echo esc_attr(get_the_date('c')); ?>">
-                    <?php echo esc_html(get_the_date()); ?>
-                </time>
-            </span>
-            <span class="byline">
-                <?php esc_html_e('by', 'piratez-cyberpunk'); ?> 
-                <span class="author vcard">
-                    <a class="url fn n" href="<?php echo esc_url(get_author_posts_url(get_the_author_meta('ID'))); ?>">
-                        <?php echo esc_html(get_the_author()); ?>
-                    </a>
-                </span>
-            </span>
+            <?php piratez_posted_on(); ?>
+            <?php piratez_posted_by(); ?>
             <?php
             if (get_theme_mod('piratez_reading_time', true)) {
                 $reading_time = piratez_calculate_reading_time(get_the_content());
@@ -62,20 +51,24 @@
 
     <footer class="entry-footer">
         <?php
-        $categories_list = get_the_category_list('');
-        if ($categories_list) {
-            echo '<div class="post-categories">';
-            echo '<span class="cat-label">' . esc_html__('Posted in', 'piratez-cyberpunk') . '</span>';
-            echo '<div class="cat-list">' . $categories_list . '</div>';
-            echo '</div>';
+        if (get_theme_mod('piratez_post_categories', true)) {
+            $categories_list = get_the_category_list('');
+            if ($categories_list) {
+                echo '<div class="post-categories">';
+                echo '<span class="cat-label">' . esc_html__('Posted in', 'piratez-cyberpunk') . '</span>';
+                echo '<div class="cat-list">' . $categories_list . '</div>';
+                echo '</div>';
+            }
         }
 
-        $tags_list = get_the_tag_list('', '');
-        if ($tags_list) {
-            echo '<div class="post-tags">';
-            echo '<span class="tags-label">' . esc_html__('Tagged', 'piratez-cyberpunk') . '</span>';
-            echo '<div class="tags-list">' . $tags_list . '</div>';
-            echo '</div>';
+        if (get_theme_mod('piratez_post_tags', true)) {
+            $tags_list = get_the_tag_list('', '');
+            if ($tags_list) {
+                echo '<div class="post-tags">';
+                echo '<span class="tags-label">' . esc_html__('Tagged', 'piratez-cyberpunk') . '</span>';
+                echo '<div class="tags-list">' . $tags_list . '</div>';
+                echo '</div>';
+            }
         }
         ?>
 

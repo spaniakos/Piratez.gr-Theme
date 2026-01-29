@@ -29,19 +29,8 @@
         </header><!-- .entry-header -->
 
         <div class="entry-meta">
-            <span class="posted-on">
-                <time datetime="<?php echo esc_attr(get_the_date('c')); ?>">
-                    <?php echo esc_html(get_the_date()); ?>
-                </time>
-            </span>
-            <span class="byline">
-                <?php esc_html_e('by', 'piratez-cyberpunk'); ?> 
-                <span class="author vcard">
-                    <a class="url fn n" href="<?php echo esc_url(get_author_posts_url(get_the_author_meta('ID'))); ?>">
-                        <?php echo esc_html(get_the_author()); ?>
-                    </a>
-                </span>
-            </span>
+            <?php piratez_posted_on(); ?>
+            <?php piratez_posted_by(); ?>
             <?php
             if (get_theme_mod('piratez_reading_time', true)) {
                 $reading_time = piratez_calculate_reading_time(get_the_content());

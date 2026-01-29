@@ -6,7 +6,7 @@ Requires PHP: 7.4
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl.html
 
-Pirate + cyberpunk WordPress theme for tech blogs. Dark/light mode, sticky header, reading time, floating TOC, editorial callouts (Phase 3), WCAG 2.1 AA accessibility, social links shortcode.
+Pirate + cyberpunk WordPress theme for tech blogs. Dark/light mode, sticky header, reading time, floating TOC, editorial callouts (Phase 3), post metadata toggles (Phase 4), WCAG 2.1 AA accessibility, social links shortcode.
 
 == Description ==
 
@@ -18,6 +18,7 @@ Features:
 * Reading time and reading progress bar
 * Table of contents: floating button + slide-in panel (desktop) / bottom-sheet (mobile); close via button, ESC, or link; keyboard accessible; respects reduced motion
 * Editorial callouts (Phase 3): [piratez_take], [piratez_hard_truth], [piratez_warning], [piratez_note] (optional title)
+* Post metadata (Phase 4): date, author, "Updated" when modified; Customizer toggles for date, author, updated, categories, tags
 * Social media links shortcode [piratez_social_links]
 * Customizer options (logos, colors, layout, sidebar, tagline)
 * Widget areas: header top, below menu, sidebar, footer
@@ -46,6 +47,10 @@ The theme follows a WCAG 2.1 AA baseline: semantic landmarks (header, nav, main,
 
 Four shortcodes for styled callouts: [piratez_take] (opinion), [piratez_hard_truth] (blunt truth), [piratez_warning] (caution), [piratez_note] (neutral note). All accept optional title="Your label". Use in posts/pages via Shortcode or Custom HTML block. See Shortcodes in the admin menu or SHORTCODE-TEST-GUIDELINES.md for examples.
 
+= Post metadata (Phase 4, complete) =
+
+Date and author use template tags; "Updated [date]" appears when the post was modified after publishing. In Appearance > Customize > Blog Features you can enable/disable: Post Date, Post Author, Last Updated Date, Post Categories, Post Tags (all on by default).
+
 == Changelog ==
 
 = 1.0.0 =
@@ -54,15 +59,19 @@ Four shortcodes for styled callouts: [piratez_take] (opinion), [piratez_hard_tru
 * Social links shortcode and Customizer options.
 * Widget areas and responsive layout.
 
-= 1.x (Phase 1, 2 & 3) =
+= 1.x (Phase 1, 2, 3 & 4) =
 * Phase 1: Floating TOC button, slide-in panel (desktop), bottom-sheet (mobile), close button and ESC, keyboard nav, scroll-to-heading offset for sticky header, reduced-motion support.
 * Phase 2: Landmarks (role="banner", aria-label on nav, role="contentinfo" on footer), :focus-visible styles, Escape to close mobile menu, prefers-reduced-motion (scroll-behavior and transitions), contrast comments, ARIA on menu toggle and TOC.
 * Phase 3: Editorial shortcodes — PirateZ Take, Hard Truth, Warning, Note; optional title attribute; admin Shortcodes page and SHORTCODE-TEST-GUIDELINES.md.
+* Phase 4: Post metadata — piratez_posted_on() / piratez_posted_by(); visible "Updated [date]" when modified; Customizer toggles for post date, author, last updated, categories, tags (Blog Features).
 
 == Upgrade Notice ==
 
 = 1.0.0 =
 * Initial release.
+
+= 1.x (Phase 1, 2, 3 & 4 complete) =
+* Phases 1–4: TOC, accessibility, editorial shortcodes, post metadata toggles. See Changelog.
 
 == Resources ==
 
