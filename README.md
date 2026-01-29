@@ -16,8 +16,8 @@ A WordPress theme for tech blogs: pirate + cyberpunk style, dark/light mode, and
 - **Table of contents** — Floating TOC button + slide-in panel (Phase 1; see below)
 - **Editorial callouts** — Shortcodes: PirateZ Take, Hard Truth, Warning, Note (Phase 3; see below)
 - **Social links shortcode** — `[piratez_social_links]` with optional class
-- **Post metadata** — Date, author, “Updated” when modified, categories/tags; all toggleable in Customizer (Phase 4; see below)
-- **Colors & Appearance (Phase PRE 5)** — Full light and dark palette in Customizer (background, surface, text, border, accents); background fix; theme defaults
+- **Post metadata (Phase 4, complete)** — Date, author, “Updated” when modified, categories/tags; all toggleable in Customizer
+- **Colors & Appearance (Phase PRE 5, complete)** — Full light and dark palette in Customizer (background, surface, text, border, accents); background fix; theme defaults
 - **Typography (theme-controlled)** — Heading, body, and accent fonts; base font size (14–22px); Customizer, blog-friendly
 - **Customizer options** — Logo, colors, layout, sidebar, tagline, accent intensity
 - **Widget areas** — Header top, below menu, sidebar, footer

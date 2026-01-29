@@ -69,12 +69,12 @@ Appearance > Customize > Typography Settings: Heading Font and Body Font (Inter,
 * Social links shortcode and Customizer options.
 * Widget areas and responsive layout.
 
-= 1.x (Phase 1, 2, 3, 4 & PRE 5) =
+= 1.x (Phase 1, 2, 3, 4 & PRE 5 complete) =
 * Phase 1: Floating TOC button, slide-in panel (desktop), bottom-sheet (mobile), close button and ESC, keyboard nav, scroll-to-heading offset for sticky header, reduced-motion support.
 * Phase 2: Landmarks (role="banner", aria-label on nav, role="contentinfo" on footer), :focus-visible styles, Escape to close mobile menu, prefers-reduced-motion (scroll-behavior and transitions), contrast comments, ARIA on menu toggle and TOC.
 * Phase 3: Editorial shortcodes — PirateZ Take, Hard Truth, Warning, Note; optional title attribute; admin Shortcodes page and SHORTCODE-TEST-GUIDELINES.md.
-* Phase 4: Post metadata — piratez_posted_on() / piratez_posted_by(); visible "Updated [date]" when modified; Customizer toggles for post date, author, last updated, categories, tags (Blog Features).
-* Phase PRE 5: Colors & Appearance — full light/dark palette (18 controls); forced background rules use CSS variables; migration from old background/accent settings; live preview in Customizer.
+* Phase 4 (complete): Post metadata — piratez_posted_on() / piratez_posted_by(); visible "Updated [date]" when modified; Customizer toggles for post date, author, last updated, categories, tags (Blog Features).
+* Phase PRE 5 (complete): Colors & Appearance — full light/dark palette (18 controls); forced background rules use CSS variables; migration from old background/accent settings; live preview in Customizer.
 * Typography — Heading, body, accent fonts wired to Customizer; base font size (14–22px); piratez_get_font_stack(); live preview.
 
 == Upgrade Notice ==
@@ -83,7 +83,7 @@ Appearance > Customize > Typography Settings: Heading Font and Body Font (Inter,
 * Initial release.
 
 = 1.x (Phase 1, 2, 3, 4 & PRE 5 complete) =
-* Phases 1–4 and PRE 5: TOC, accessibility, editorial shortcodes, post metadata, full Colors & Appearance. See Changelog.
+* Phases 1–4 and PRE 5 complete: TOC, accessibility, editorial shortcodes, post metadata, Colors & Appearance, typography. See Changelog.
 
 == Resources ==
 
