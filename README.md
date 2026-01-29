@@ -14,6 +14,7 @@ A WordPress theme for tech blogs: pirate + cyberpunk style, dark/light mode, and
 - **Reading time** — Per-post estimate with optional display
 - **Reading progress bar** — On single posts (optional)
 - **Table of contents** — Floating TOC button + slide-in panel (Phase 1; see below)
+- **Editorial callouts** — Shortcodes: PirateZ Take, Hard Truth, Warning, Note (Phase 3; see below)
 - **Social links shortcode** — `[piratez_social_links]` with optional class
 - **Customizer options** — Logo, colors, layout, sidebar, tagline, accent intensity
 - **Widget areas** — Header top, below menu, sidebar, footer
@@ -53,6 +54,19 @@ Accessibility is always on; there is no toggle.
 
 ---
 
+## Phase 3 — Editorial shortcodes
+
+Styled callout boxes for opinion, blunt truth, caution, and neutral notes:
+
+- **PirateZ Take** — `[piratez_take]...[/piratez_take]` — Opinion or editorial stance.
+- **Hard Truth** — `[piratez_hard_truth]...[/piratez_hard_truth]` — Blunt or uncomfortable truth.
+- **Warning** — `[piratez_warning]...[/piratez_warning]` — Caution, risk, or “proceed with care”.
+- **Note** — `[piratez_note]...[/piratez_note]` — Neutral note or insight; optional `title="Insight"` (or any label) to override the default “Note” header.
+
+All four accept an optional `title="Your label"` attribute. Usage and test snippets are in **Shortcodes** (admin menu) and in `SHORTCODE-TEST-GUIDELINES.md`.
+
+---
+
 ## Installation
 
 1. Download or clone this repo into `wp-content/themes/`.
@@ -79,6 +93,17 @@ With a custom class:
 
 Configure URLs in **Appearance → Customize → Social Media Links**.  
 Shortcode usage is also listed under **Shortcodes** in the admin menu.
+
+### Editorial callouts (Phase 3)
+
+Use in posts or pages (Block editor: Shortcode or Custom HTML block):
+
+- `[piratez_take]Your opinion.[/piratez_take]`
+- `[piratez_hard_truth]Blunt truth.[/piratez_hard_truth]`
+- `[piratez_warning]Caution text.[/piratez_warning]`
+- `[piratez_note]Neutral note.[/piratez_note]` — optional `title="Insight"` (or any label) for a custom header.
+
+See `SHORTCODE-TEST-GUIDELINES.md` for copy-paste test snippets.
 
 ### Customizer
 

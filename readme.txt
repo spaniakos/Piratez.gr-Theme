@@ -6,7 +6,7 @@ Requires PHP: 7.4
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl.html
 
-Pirate + cyberpunk WordPress theme for tech blogs. Dark/light mode, sticky header, reading time, floating TOC, WCAG 2.1 AA accessibility, social links shortcode.
+Pirate + cyberpunk WordPress theme for tech blogs. Dark/light mode, sticky header, reading time, floating TOC, editorial callouts (Phase 3), WCAG 2.1 AA accessibility, social links shortcode.
 
 == Description ==
 
@@ -17,6 +17,7 @@ Features:
 * Sticky header (scroll-based)
 * Reading time and reading progress bar
 * Table of contents: floating button + slide-in panel (desktop) / bottom-sheet (mobile); close via button, ESC, or link; keyboard accessible; respects reduced motion
+* Editorial callouts (Phase 3): [piratez_take], [piratez_hard_truth], [piratez_warning], [piratez_note] (optional title)
 * Social media links shortcode [piratez_social_links]
 * Customizer options (logos, colors, layout, sidebar, tagline)
 * Widget areas: header top, below menu, sidebar, footer
@@ -41,6 +42,10 @@ On single posts and pages with 2+ headings, a floating TOC button appears (botto
 
 The theme follows a WCAG 2.1 AA baseline: semantic landmarks (header, nav, main, footer), skip-to-content link, visible :focus-visible styles, full keyboard navigation for menus and TOC, and respect for prefers-reduced-motion (no smooth scroll or transitions when the user requests reduced motion). There is no on/off toggle; accessibility is always on.
 
+= Editorial callouts (Phase 3) =
+
+Four shortcodes for styled callouts: [piratez_take] (opinion), [piratez_hard_truth] (blunt truth), [piratez_warning] (caution), [piratez_note] (neutral note). All accept optional title="Your label". Use in posts/pages via Shortcode or Custom HTML block. See Shortcodes in the admin menu or SHORTCODE-TEST-GUIDELINES.md for examples.
+
 == Changelog ==
 
 = 1.0.0 =
@@ -49,9 +54,10 @@ The theme follows a WCAG 2.1 AA baseline: semantic landmarks (header, nav, main,
 * Social links shortcode and Customizer options.
 * Widget areas and responsive layout.
 
-= 1.x (Phase 1 & 2) =
+= 1.x (Phase 1, 2 & 3) =
 * Phase 1: Floating TOC button, slide-in panel (desktop), bottom-sheet (mobile), close button and ESC, keyboard nav, scroll-to-heading offset for sticky header, reduced-motion support.
 * Phase 2: Landmarks (role="banner", aria-label on nav, role="contentinfo" on footer), :focus-visible styles, Escape to close mobile menu, prefers-reduced-motion (scroll-behavior and transitions), contrast comments, ARIA on menu toggle and TOC.
+* Phase 3: Editorial shortcodes — PirateZ Take, Hard Truth, Warning, Note; optional title attribute; admin Shortcodes page and SHORTCODE-TEST-GUIDELINES.md.
 
 == Upgrade Notice ==
 
