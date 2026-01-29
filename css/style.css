@@ -250,6 +250,69 @@ a:focus {
 }
 
 /* ============================================
+   Editorial callouts (shortcodes)
+   ============================================ */
+
+.piratez-callout {
+    margin: var(--spacing-md) 0;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-left: 4px solid var(--color-border);
+    background: var(--color-bg-secondary);
+    border-radius: 0 6px 6px 0;
+}
+
+.piratez-callout-title {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.9375rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.piratez-callout-content {
+    margin: 0;
+}
+
+.piratez-callout-content p:first-child {
+    margin-top: 0;
+}
+
+.piratez-callout-content p:last-child {
+    margin-bottom: 0;
+}
+
+.piratez-take {
+    border-left-color: var(--color-accent-gold);
+}
+
+.piratez-take .piratez-callout-title {
+    color: var(--color-accent-gold);
+}
+
+.piratez-hard-truth {
+    border-left-color: var(--color-accent-secondary);
+}
+
+.piratez-hard-truth .piratez-callout-title {
+    color: var(--color-accent-secondary);
+}
+
+.piratez-warning {
+    border-left-color: #c9302c;
+}
+
+.piratez-warning .piratez-callout-title {
+    color: #c9302c;
+}
+
+.piratez-note {
+    border-left-color: var(--color-accent-primary);
+}
+
+.piratez-note .piratez-callout-title {
+    color: var(--color-accent-primary);
+}
+
+/* ============================================
    Layout
    ============================================ */
 

@@ -119,6 +119,69 @@ function piratez_social_links_shortcode($atts, $content = null) {
 add_shortcode('piratez_social_links', 'piratez_social_links_shortcode');
 
 /**
+ * Shared helper: build editorial callout markup.
+ *
+ * @param string $content Inner content (will be passed through wp_kses_post).
+ * @param string $type One of: take, hard-truth, warning, note.
+ * @param string $default_title Default title if none provided.
+ * @param string $custom_title Optional override from shortcode atts.
+ * @return string HTML for the callout.
+ */
+function piratez_editorial_callout($content, $type, $default_title, $custom_title = '') {
+    $title = !empty($custom_title) ? wp_kses_post($custom_title) : esc_html($default_title);
+    $content = wp_kses_post($content);
+    if (empty($content)) {
+        return '';
+    }
+    $class = 'piratez-callout piratez-' . sanitize_html_class($type);
+    $output = '<aside class="' . esc_attr($class) . '" role="doc-tip">';
+    $output .= '<p class="piratez-callout-title"><strong>' . $title . '</strong></p>';
+    $output .= '<div class="piratez-callout-content">' . $content . '</div>';
+    $output .= '</aside>';
+    return $output;
+}
+
+/**
+ * PirateZ Take — opinion / editorial take.
+ * Usage: [piratez_take]content[/piratez_take] or [piratez_take title="Custom title"]content[/piratez_take]
+ */
+function piratez_take_shortcode($atts, $content = null) {
+    $atts = shortcode_atts(array('title' => ''), is_array($atts) ? $atts : array(), 'piratez_take');
+    return piratez_editorial_callout($content, 'take', __('PirateZ Take', 'piratez-cyberpunk'), $atts['title']);
+}
+add_shortcode('piratez_take', 'piratez_take_shortcode');
+
+/**
+ * Hard Truth — blunt / uncomfortable truth.
+ * Usage: [piratez_hard_truth]content[/piratez_hard_truth] or [piratez_hard_truth title="..."]content[/piratez_hard_truth]
+ */
+function piratez_hard_truth_shortcode($atts, $content = null) {
+    $atts = shortcode_atts(array('title' => ''), is_array($atts) ? $atts : array(), 'piratez_hard_truth');
+    return piratez_editorial_callout($content, 'hard-truth', __('Hard Truth', 'piratez-cyberpunk'), $atts['title']);
+}
+add_shortcode('piratez_hard_truth', 'piratez_hard_truth_shortcode');
+
+/**
+ * Warning / Risk — caution or risk callout.
+ * Usage: [piratez_warning]content[/piratez_warning] or [piratez_warning title="Risk"]content[/piratez_warning]
+ */
+function piratez_warning_shortcode($atts, $content = null) {
+    $atts = shortcode_atts(array('title' => ''), is_array($atts) ? $atts : array(), 'piratez_warning');
+    return piratez_editorial_callout($content, 'warning', __('Warning', 'piratez-cyberpunk'), $atts['title']);
+}
+add_shortcode('piratez_warning', 'piratez_warning_shortcode');
+
+/**
+ * Note / Insight — neutral note or insight.
+ * Usage: [piratez_note]content[/piratez_note] or [piratez_note title="Insight"]content[/piratez_note]
+ */
+function piratez_note_shortcode($atts, $content = null) {
+    $atts = shortcode_atts(array('title' => ''), is_array($atts) ? $atts : array(), 'piratez_note');
+    return piratez_editorial_callout($content, 'note', __('Note', 'piratez-cyberpunk'), $atts['title']);
+}
+add_shortcode('piratez_note', 'piratez_note_shortcode');
+
+/**
  * Add shortcode info to admin menu
  */
 function piratez_add_shortcode_info_menu() {
@@ -149,6 +212,15 @@ function piratez_shortcodes_info_page() {
             <p><strong><?php esc_html_e('With custom class:', 'piratez-cyberpunk'); ?></strong></p>
             <code style="display: block; padding: 10px; background: #f5f5f5; margin: 10px 0; font-size: 14px;">[piratez_social_links class="my-custom-class"]</code>
             <p><?php esc_html_e('Configure your social media links in:', 'piratez-cyberpunk'); ?> <a href="<?php echo esc_url(admin_url('customize.php?autofocus[section]=piratez_social_media_section')); ?>"><?php esc_html_e('Appearance → Customize → Social Media Links', 'piratez-cyberpunk'); ?></a></p>
+        </div>
+        <div class="card">
+            <h2><?php esc_html_e('Editorial callouts', 'piratez-cyberpunk'); ?></h2>
+            <p><?php esc_html_e('Styled callout boxes for opinion, hard truth, warning, or note. Optional custom title with the title attribute.', 'piratez-cyberpunk'); ?></p>
+            <p><strong><?php esc_html_e('PirateZ Take:', 'piratez-cyberpunk'); ?></strong> <code>[piratez_take]Your text here.[/piratez_take]</code></p>
+            <p><strong><?php esc_html_e('Hard Truth:', 'piratez-cyberpunk'); ?></strong> <code>[piratez_hard_truth]Your text here.[/piratez_hard_truth]</code></p>
+            <p><strong><?php esc_html_e('Warning:', 'piratez-cyberpunk'); ?></strong> <code>[piratez_warning]Your text here.[/piratez_warning]</code></p>
+            <p><strong><?php esc_html_e('Note:', 'piratez-cyberpunk'); ?></strong> <code>[piratez_note]Your text here.[/piratez_note]</code></p>
+            <p><strong><?php esc_html_e('Custom title:', 'piratez-cyberpunk'); ?></strong> <code>[piratez_note title="Insight"]Your text.[/piratez_note]</code></p>
         </div>
     </div>
     <?php
