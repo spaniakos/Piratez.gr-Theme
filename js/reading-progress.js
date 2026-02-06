@@ -50,7 +50,8 @@
         }
 
         window.addEventListener('scroll', onScroll, { passive: true });
-        updateProgress(); // Initial calculation
+        // Initial calculation (defer to next frame to avoid forced reflow in same tick as other inits)
+        requestAnimationFrame(updateProgress);
     }
 
     // Initialize

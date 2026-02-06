@@ -125,8 +125,8 @@
                 }
             }
 
-            // Initial check
-            updateStickyHeader();
+            // Initial check (defer to next frame to avoid forced reflow in same tick as other inits)
+            requestAnimationFrame(updateStickyHeader);
 
             // Listen to scroll events
             window.addEventListener('scroll', onScroll, { passive: true });

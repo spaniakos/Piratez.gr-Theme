@@ -36,7 +36,8 @@
         }
 
         window.addEventListener('scroll', onScroll, { passive: true });
-        toggleButton(); // Initial check
+        // Initial check (defer to next frame to avoid forced reflow in same tick as other inits)
+        requestAnimationFrame(toggleButton);
 
         // Scroll to top on click
         scrollButton.addEventListener('click', function(e) {
