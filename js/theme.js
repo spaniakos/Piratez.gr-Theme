@@ -99,16 +99,16 @@
     document.body.classList.add('accent-' + accentIntensity);
 
     // Sticky Header - WordPress Style (scroll-based)
+    // Two-rAF pattern: read scroll in frame 1, write classes in frame 2 to avoid forced reflow.
     if (document.body.classList.contains('sticky-header-enabled')) {
         const header = document.querySelector('.site-header, #masthead');
         if (header) {
             const scrollThreshold = 100; // Start sticking after 100px scroll
             let ticking = false;
+            let lastScrollY = 0;
 
-            function updateStickyHeader() {
-                const scrollY = window.pageYOffset || document.documentElement.scrollTop;
-
-                if (scrollY > scrollThreshold) {
+            function writeStickyState() {
+                if (lastScrollY > scrollThreshold) {
                     header.classList.add('is-sticky');
                     document.body.classList.add('header-is-sticky');
                 } else {
@@ -116,6 +116,11 @@
                     document.body.classList.remove('header-is-sticky');
                 }
                 ticking = false;
+            }
+
+            function updateStickyHeader() {
+                lastScrollY = window.pageYOffset || document.documentElement.scrollTop;
+                window.requestAnimationFrame(writeStickyState);
             }
 
             function onScroll() {

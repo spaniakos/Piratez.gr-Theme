@@ -87,6 +87,33 @@ function piratez_style_loader_tag_nonblocking_global($html, $handle, $href, $med
 }
 
 /**
+ * Force non-blocking for consent/popup CSS by URL (catches plugin styles that bypass normal media).
+ * Runs after global filter so any popup.css that still has default blocking gets converted.
+ *
+ * @param string $html  The link tag for the enqueued style.
+ * @param string $handle The style's registered handle.
+ * @param string $href  The stylesheet's source URL.
+ * @param string $media The stylesheet's media attribute.
+ * @return string Modified link tag (and noscript fallback).
+ */
+function piratez_style_loader_tag_popup_nonblocking($html, $handle, $href, $media) {
+    if (strpos($href, 'popup.css') === false) {
+        return $html;
+    }
+    if (strpos($html, "media='print'") !== false || strpos($html, 'media="print"') !== false) {
+        return $html;
+    }
+    $onload = "this.media='all'";
+    $html   = str_replace("media='all'", 'media="print" onload="' . esc_attr($onload) . '"', $html);
+    $html   = str_replace('media="all"', 'media="print" onload="' . esc_attr($onload) . '"', $html);
+    if (strpos($html, 'onload="') === false) {
+        $html = preg_replace('/(<link\s[^>]+?)(\s*\/?>)/', '$1 media="print" onload="' . esc_attr($onload) . '"$2', $html, 1);
+    }
+    $noscript = '<noscript><link rel="stylesheet" href="' . esc_url($href) . '" media="all"></noscript>';
+    return $html . $noscript;
+}
+
+/**
  * Register render-blocking filters (front end only).
  */
 function piratez_render_blocking_init() {
@@ -95,5 +122,6 @@ function piratez_render_blocking_init() {
     }
     add_filter('style_loader_tag', 'piratez_style_loader_tag_nonblocking', 10, 4);
     add_filter('style_loader_tag', 'piratez_style_loader_tag_nonblocking_global', 11, 4);
+    add_filter('style_loader_tag', 'piratez_style_loader_tag_popup_nonblocking', 12, 4);
 }
 add_action('wp_enqueue_scripts', 'piratez_render_blocking_init', 20);
