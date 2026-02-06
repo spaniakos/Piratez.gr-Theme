@@ -1,9 +1,10 @@
 <?php
 /**
- * Render-blocking optimizations (theme assets only).
+ * Render-blocking optimizations.
  *
- * Loads theme stylesheets and Google Fonts in a non-blocking way so they
- * do not delay LCP/FCP. Scripts are already deferred via piratez_defer_scripts.
+ * - Theme CSS: non-blocking via first filter (piratez_style_loader_tag_nonblocking).
+ * - All other CSS (plugins, core): non-blocking via second filter (Option B).
+ * Scripts are deferred in functions.php.
  *
  * @package piratez_cyberpunk
  */
@@ -43,6 +44,39 @@ function piratez_style_loader_tag_nonblocking($html, $handle, $href, $media) {
         return $html;
     }
 
+    if (strpos($html, "media='print'") !== false || strpos($html, 'media="print"') !== false) {
+        return $html;
+    }
+
+    $media_attr = 'print';
+    $onload     = "this.media='all'";
+    $html       = str_replace("media='all'", 'media="' . esc_attr($media_attr) . '" onload="' . esc_attr($onload) . '"', $html);
+    $html       = str_replace('media="all"', 'media="' . esc_attr($media_attr) . '" onload="' . esc_attr($onload) . '"', $html);
+
+    $noscript = '<noscript><link rel="stylesheet" href="' . esc_url($href) . '" media="all"></noscript>';
+    return $html . $noscript;
+}
+
+/**
+ * Make all non-theme stylesheets non-blocking (Option B: plugin/core CSS).
+ * Theme handles are left to the filter above; this runs after and only touches other styles.
+ *
+ * @param string $html  The link tag for the enqueued style.
+ * @param string $handle The style's registered handle.
+ * @param string $href  The stylesheet's source URL.
+ * @param string $media The stylesheet's media attribute.
+ * @return string Modified link tag (and noscript fallback).
+ */
+function piratez_style_loader_tag_nonblocking_global($html, $handle, $href, $media) {
+    $theme_handles = piratez_render_blocking_style_handles();
+    if (in_array($handle, $theme_handles, true)) {
+        return $html;
+    }
+
+    if (strpos($html, "media='print'") !== false || strpos($html, 'media="print"') !== false) {
+        return $html;
+    }
+
     $media_attr = 'print';
     $onload     = "this.media='all'";
     $html       = str_replace("media='all'", 'media="' . esc_attr($media_attr) . '" onload="' . esc_attr($onload) . '"', $html);
@@ -60,5 +94,6 @@ function piratez_render_blocking_init() {
         return;
     }
     add_filter('style_loader_tag', 'piratez_style_loader_tag_nonblocking', 10, 4);
+    add_filter('style_loader_tag', 'piratez_style_loader_tag_nonblocking_global', 11, 4);
 }
 add_action('wp_enqueue_scripts', 'piratez_render_blocking_init', 20);
