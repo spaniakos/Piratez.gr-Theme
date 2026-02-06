@@ -1720,6 +1720,29 @@ body:not(.sidebar-enabled) .site-content {
     .posts-container {
         gap: var(--spacing-sm);
     }
+
+    .post-card .entry-summary {
+        font-size: 0.9375rem;
+        line-height: 1.5;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        margin-bottom: var(--spacing-sm);
+    }
+
+    .post-card .entry-summary p {
+        margin: 0 0 0.5em;
+    }
+
+    .post-card .entry-summary p:last-child {
+        margin-bottom: 0;
+    }
+
+    .post-card .entry-footer {
+        margin-top: var(--spacing-sm) !important;
+        padding-top: var(--spacing-sm) !important;
+    }
 }
 
 /* Post Grid Responsive Breakpoints - Desktop: 2 columns */
@@ -1831,40 +1854,62 @@ body:not(.sidebar-enabled) .site-content {
     }
 
     .site-header-top {
-        flex-wrap: wrap;
-        gap: var(--spacing-sm);
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: var(--spacing-xs);
+        min-width: 0;
+        overflow: hidden;
     }
 
+    /* Left: branding */
     .site-header-top .site-branding {
-        flex: 1 1 100%;
-        max-width: 100%;
+        flex: 0 1 auto;
+        min-width: 0;
+        max-width: 55%;
+        width: auto;
         order: 1;
+        overflow: hidden;
     }
 
+    .site-header-top .site-branding .site-title a,
+    .site-header-top .site-branding .site-title {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: block;
+    }
+
+    .site-header-top .site-branding img.custom-logo {
+        max-height: 2rem;
+        max-width: 100%;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+    }
+
+    /* Middle: menu */
     .site-header-top .main-navigation {
-        flex: 1 1 auto;
-        max-width: calc(100% - 60px);
+        flex: 0 0 auto;
+        min-width: 0;
         order: 2;
         position: relative;
-        /* For absolute dropdown */
     }
 
+    /* Right: dark mode switcher */
     .site-header-top .header-actions {
         flex: 0 0 auto;
+        min-width: 0;
         order: 3;
     }
 
     .site-header-row2 {
-        flex-wrap: wrap;
-        gap: var(--spacing-sm);
-        margin-top: var(--spacing-xs);
-        padding-top: var(--spacing-xs);
+        display: none;
     }
 
     .site-branding {
         flex: 1 1 auto;
         min-width: 0;
-        /* Allow text truncation */
     }
 
 
@@ -1884,6 +1929,32 @@ body:not(.sidebar-enabled) .site-content {
 
     .post-card {
         margin-bottom: var(--spacing-sm);
+    }
+
+    .post-card .entry-summary {
+        font-size: 0.9375rem;
+        line-height: 1.5;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .post-card .entry-summary p {
+        margin: 0 0 0.5em;
+    }
+
+    .post-card .entry-summary p:last-child {
+        margin-bottom: 0;
+    }
+
+    .post-card .entry-summary {
+        margin-bottom: var(--spacing-sm);
+    }
+
+    .post-card .entry-footer {
+        margin-top: var(--spacing-sm) !important;
+        padding-top: var(--spacing-sm) !important;
     }
 
     .post-thumbnail-slot {

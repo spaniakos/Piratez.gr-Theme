@@ -73,16 +73,15 @@
                     </button>
                 </div><!-- .header-actions -->
             </div><!-- .site-header-top -->
-            
+            <?php
+            $description = get_bloginfo('description', 'display');
+            if (($description || is_customize_preview()) && get_theme_mod('piratez_tagline_display', true)) : ?>
             <div class="site-header-row2">
-                <?php
-                $description = get_bloginfo('description', 'display');
-                if (($description || is_customize_preview()) && get_theme_mod('piratez_tagline_display', true)) : ?>
-                    <div class="site-header-subtitle">
-                        <p class="site-description"><?php echo $description; ?></p>
-                    </div><!-- .site-header-subtitle -->
-                <?php endif; ?>
+                <div class="site-header-subtitle">
+                    <p class="site-description"><?php echo $description; ?></p>
+                </div><!-- .site-header-subtitle -->
             </div><!-- .site-header-row2 -->
+            <?php endif; ?>
         </div><!-- .container -->
     </header><!-- #masthead -->
 

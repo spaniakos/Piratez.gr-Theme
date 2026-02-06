@@ -12,7 +12,7 @@ if (!defined('ABSPATH')) {
 /**
  * Theme version
  */
-define('PIRATEZ_VERSION', '1.0.1');
+define('PIRATEZ_VERSION', '1.0.2');
 
 /**
  * Theme setup
