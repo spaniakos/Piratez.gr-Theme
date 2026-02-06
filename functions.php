@@ -114,6 +114,11 @@ function piratez_get_font_stack($choice) {
 require get_template_directory() . '/inc/widget-areas.php';
 
 /**
+ * Render-blocking optimizations (theme CSS and fonts non-blocking)
+ */
+require get_template_directory() . '/inc/render-blocking.php';
+
+/**
  * Enqueue scripts and styles
  */
 function piratez_cyberpunk_scripts() {
