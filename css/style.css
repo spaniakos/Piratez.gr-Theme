@@ -1807,6 +1807,11 @@ body:not(.sidebar-enabled) .site-content {
         font-size: 14px;
     }
 
+    .site-header,
+    #masthead {
+        --piratez-mobile-header-height: 3.25rem;
+    }
+
     .container {
         padding: 0 var(--spacing-sm);
     }
@@ -1836,6 +1841,14 @@ body:not(.sidebar-enabled) .site-content {
     .main-navigation.toggled #primary-menu {
         display: flex !important;
         flex-direction: column;
+        position: fixed !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        min-width: 100% !important;
+        top: var(--piratez-mobile-header-height, 3.25rem) !important;
+        max-height: calc(100vh - var(--piratez-mobile-header-height, 3.25rem));
+        overflow-y: auto;
     }
 
     /* On desktop, menu should be horizontal */
