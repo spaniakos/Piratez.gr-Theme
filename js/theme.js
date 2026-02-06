@@ -130,9 +130,7 @@
                 }
             }
 
-            // Initial check (defer to next frame to avoid forced reflow in same tick as other inits)
-            requestAnimationFrame(updateStickyHeader);
-
+            // No initial run: correct state at load is "not sticky"; only update on scroll to avoid reflow.
             // Listen to scroll events
             window.addEventListener('scroll', onScroll, { passive: true });
         }

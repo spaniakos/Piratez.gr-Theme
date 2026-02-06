@@ -40,8 +40,7 @@
         }
 
         window.addEventListener('scroll', onScroll, { passive: true });
-        // Initial check (defer to next frame to avoid forced reflow in same tick as other inits)
-        requestAnimationFrame(readScrollTop);
+        // No initial run: CSS hides button by default; only update on scroll to avoid reflow.
 
         // Scroll to top on click
         scrollButton.addEventListener('click', function(e) {
