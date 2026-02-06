@@ -320,6 +320,15 @@ require get_template_directory() . '/inc/customizer.php';
 require get_template_directory() . '/inc/shortcodes.php';
 
 /**
+ * AI Index (llms.txt, sitemap.xml) - only when theme supports it
+ */
+add_action('after_setup_theme', function () {
+    if (current_theme_supports('piratez-ai-index')) {
+        require get_template_directory() . '/inc/sitemap.php';
+    }
+}, 20);
+
+/**
  * Modify main query to use custom posts per page setting
  */
 function piratez_modify_main_query($query) {
