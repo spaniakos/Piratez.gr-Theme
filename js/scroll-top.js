@@ -14,30 +14,34 @@
         }
 
         const scrollThreshold = 300;
+        let showButton = false;
 
-        function toggleButton() {
-            if (window.pageYOffset > scrollThreshold) {
+        // Two-rAF: read scroll in frame 1, write classList in frame 2 to avoid forced reflow.
+        function writeScrollTopState() {
+            if (showButton) {
                 scrollButton.classList.add('visible');
             } else {
                 scrollButton.classList.remove('visible');
             }
+            ticking = false;
         }
 
-        // Show/hide button on scroll
+        function readScrollTop() {
+            showButton = (window.pageYOffset || document.documentElement.scrollTop) > scrollThreshold;
+            window.requestAnimationFrame(writeScrollTopState);
+        }
+
         let ticking = false;
         function onScroll() {
             if (!ticking) {
-                window.requestAnimationFrame(function() {
-                    toggleButton();
-                    ticking = false;
-                });
+                window.requestAnimationFrame(readScrollTop);
                 ticking = true;
             }
         }
 
         window.addEventListener('scroll', onScroll, { passive: true });
         // Initial check (defer to next frame to avoid forced reflow in same tick as other inits)
-        requestAnimationFrame(toggleButton);
+        requestAnimationFrame(readScrollTop);
 
         // Scroll to top on click
         scrollButton.addEventListener('click', function(e) {

@@ -18,40 +18,41 @@
             return;
         }
 
-        function updateProgress() {
+        let lastProgress = 0;
+
+        // Two-rAF: read dimensions/scroll in frame 1, write width in frame 2 to avoid forced reflow.
+        function writeProgressState() {
+            progressBar.style.width = lastProgress + '%';
+            ticking = false;
+        }
+
+        function readProgress() {
             const windowHeight = window.innerHeight;
-            const documentHeight = document.documentElement.scrollHeight;
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
             const articleTop = article.offsetTop;
             const articleHeight = article.offsetHeight;
-            const articleBottom = articleTop + articleHeight;
 
             let progress = 0;
-
             if (scrollTop >= articleTop) {
                 const scrolled = scrollTop - articleTop;
                 const maxScroll = articleHeight - windowHeight;
-                progress = Math.min((scrolled / maxScroll) * 100, 100);
+                progress = maxScroll > 0 ? Math.min((scrolled / maxScroll) * 100, 100) : 100;
             }
-
-            progressBar.style.width = progress + '%';
+            lastProgress = progress;
+            window.requestAnimationFrame(writeProgressState);
         }
 
-        // Throttle scroll events
         let ticking = false;
         function onScroll() {
             if (!ticking) {
-                window.requestAnimationFrame(function() {
-                    updateProgress();
-                    ticking = false;
-                });
+                window.requestAnimationFrame(readProgress);
                 ticking = true;
             }
         }
 
         window.addEventListener('scroll', onScroll, { passive: true });
         // Initial calculation (defer to next frame to avoid forced reflow in same tick as other inits)
-        requestAnimationFrame(updateProgress);
+        requestAnimationFrame(readProgress);
     }
 
     // Initialize
