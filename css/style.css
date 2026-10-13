@@ -224,13 +224,13 @@ a:focus {
 }
 
 /* Accessibility: links within content and comments must be underlined */
-.entry-content a,
+.entry-content :where(a:not(.wp-element-button):not(.wp-block-navigation-item__content)),
 .comment-content a {
     text-decoration: underline;
 }
 
-.entry-content a:hover,
-.entry-content a:focus,
+.entry-content :where(a:not(.wp-element-button):not(.wp-block-navigation-item__content)):hover,
+.entry-content :where(a:not(.wp-element-button):not(.wp-block-navigation-item__content)):focus,
 .comment-content a:hover,
 .comment-content a:focus {
     text-decoration: underline;

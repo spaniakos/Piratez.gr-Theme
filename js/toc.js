@@ -31,9 +31,12 @@
         // Ensure headings have IDs
         headings.forEach((heading, index) => {
             if (!heading.id) {
-                heading.id = 'heading-' + index + '-' + heading.textContent.toLowerCase()
-                    .replace(/[^a-z0-9]+/g, '-')
-                    .replace(/^-+|-+$/g, '');
+                const slug = heading.textContent.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+                const base = 'heading-' + index + '-' + slug;
+                let id = base;
+                let suffix = 1;
+                while (document.getElementById(id)) { id = base + '-' + suffix++; }
+                heading.id = id;
             }
         });
 
@@ -69,15 +72,29 @@
             const tocItem = document.createElement('li');
             tocItem.className = 'toc-item toc-level-' + heading.tagName.toLowerCase();
             const tocLink = document.createElement('a');
-            tocLink.href = '#' + heading.id;
+            tocLink.href = '#' + encodeURIComponent(heading.id);
             tocLink.textContent = heading.textContent;
             tocLink.className = 'toc-link';
             tocLink.addEventListener('click', function (e) {
                 e.preventDefault();
                 const target = document.getElementById(heading.id);
                 if (target) {
-                    target.scrollIntoView({ behavior: REDUCED_MOTION ? 'auto' : 'smooth', block: 'start' });
-                    history.pushState(null, null, '#' + heading.id);
+                    // Open ancestor disclosures through core's controls before scrolling.
+                    const ancestors = [];
+                    for (let node = target.parentElement; node && node !== entryContent; node = node.parentElement) { ancestors.unshift(node); }
+                    ancestors.forEach(function (node) {
+                        if (node.tagName === 'DETAILS') { node.open = true; }
+                        if (node.id && (node.hidden || node.getAttribute('aria-hidden') === 'true' || node.classList.contains('wp-block-accordion-panel'))) {
+                            const control = Array.from(entryContent.querySelectorAll('[aria-controls]')).find(function (button) {
+                                return button.getAttribute('aria-controls').split(/\s+/).includes(node.id);
+                            });
+                            if (control && (control.getAttribute('aria-expanded') === 'false' || control.getAttribute('aria-selected') === 'false')) { control.click(); }
+                        }
+                    });
+                    requestAnimationFrame(function () {
+                        target.scrollIntoView({ behavior: REDUCED_MOTION ? 'auto' : 'smooth', block: 'start' });
+                    });
+                    history.pushState(null, null, '#' + encodeURIComponent(heading.id));
                 }
                 if (window.matchMedia('(max-width: 1024px)').matches) {
                     setPanelOpen(false);
@@ -165,7 +182,7 @@
             const scrollPosition = window.pageYOffset + (windowHeight / 3);
 
             headings.forEach((heading) => {
-                const headingTop = heading.offsetTop;
+                const headingTop = heading.getBoundingClientRect().top + window.pageYOffset;
                 if (scrollPosition >= headingTop) {
                     current = heading.id;
                 }
@@ -176,7 +193,9 @@
             });
 
             if (current) {
-                const activeLink = tocList.querySelector('a[href="#' + current + '"]');
+                const activeLink = Array.from(tocList.querySelectorAll('a')).find(function (link) {
+                    return link.getAttribute('href') === '#' + encodeURIComponent(current);
+                });
                 if (activeLink) {
                     activeLink.parentElement.classList.add('active');
                 }
@@ -204,3 +223,4 @@
         generateTableOfContents();
     }
 })();
+

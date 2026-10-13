@@ -12,7 +12,7 @@ if (!defined('ABSPATH')) {
 /**
  * Theme version
  */
-define('PIRATEZ_VERSION', '1.0.4');
+define('PIRATEZ_VERSION', '1.1.0');
 
 /**
  * Theme setup
@@ -117,6 +117,7 @@ require get_template_directory() . '/inc/widget-areas.php';
  * Render-blocking optimizations (theme CSS and fonts non-blocking)
  */
 require get_template_directory() . '/inc/render-blocking.php';
+require get_template_directory() . '/inc/block-editor.php';
 
 /**
  * Enqueue scripts and styles
@@ -140,58 +141,7 @@ function piratez_cyberpunk_scripts() {
         wp_add_inline_style('piratez-foundation', $custom_css);
     }
 
-    // Output dynamic colors (Phase PRE 5: full light/dark palette; migrate old mods to light)
-    $light_vars = array(
-        '--color-bg-primary'       => get_theme_mod('piratez_light_bg_primary') ?: get_theme_mod('piratez_background_color', '#ffffff'),
-        '--color-bg-secondary'     => get_theme_mod('piratez_light_bg_secondary', '#f5f5f5'),
-        '--color-surface'           => get_theme_mod('piratez_light_surface', '#ffffff'),
-        '--color-text-primary'     => get_theme_mod('piratez_light_text_primary', '#1a1a2e'),
-        '--color-text-secondary'   => get_theme_mod('piratez_light_text_secondary', '#666666'),
-        '--color-border'           => get_theme_mod('piratez_light_border', '#e0e0e0'),
-        '--color-accent-primary'    => get_theme_mod('piratez_light_accent_primary') ?: get_theme_mod('piratez_primary_accent_color', '#0066cc'),
-        '--color-accent-secondary'  => get_theme_mod('piratez_light_accent_secondary') ?: get_theme_mod('piratez_secondary_accent_color', '#cc0066'),
-        '--color-accent-gold'       => get_theme_mod('piratez_light_accent_gold') ?: get_theme_mod('piratez_gold_color', '#b8860b'),
-    );
-    $dark_vars = array(
-        '--color-bg-primary'       => get_theme_mod('piratez_dark_bg_primary', '#1a1a2e'),
-        '--color-bg-secondary'     => get_theme_mod('piratez_dark_bg_secondary', '#0f0f1a'),
-        '--color-surface'           => get_theme_mod('piratez_dark_surface', '#252540'),
-        '--color-text-primary'     => get_theme_mod('piratez_dark_text_primary', '#e0e0e0'),
-        '--color-text-secondary'   => get_theme_mod('piratez_dark_text_secondary', '#b0b0b0'),
-        '--color-border'           => get_theme_mod('piratez_dark_border', '#3a3a5a'),
-        '--color-accent-primary'    => get_theme_mod('piratez_dark_accent_primary', '#00a8ff'),
-        '--color-accent-secondary'  => get_theme_mod('piratez_dark_accent_secondary', '#ff0080'),
-        '--color-accent-gold'       => get_theme_mod('piratez_dark_accent_gold', '#ffd700'),
-    );
-    $light_decls = array();
-    foreach ($light_vars as $var => $val) {
-        $light_decls[] = $var . ': ' . esc_attr($val);
-    }
-    $dark_decls = array();
-    foreach ($dark_vars as $var => $val) {
-        $dark_decls[] = $var . ': ' . esc_attr($val);
-    }
-
-    // Typography (theme-controlled; blog-friendly)
-    $heading_font = get_theme_mod('piratez_heading_font', 'Inter');
-    $body_font    = get_theme_mod('piratez_body_font', 'Inter');
-    $accent_font  = get_theme_mod('piratez_accent_font', 'Press Start 2P');
-    $base_size    = max(14, min(22, absint(get_theme_mod('piratez_base_font_size', 16))));
-    $light_decls[] = '--font-heading: ' . piratez_get_font_stack($heading_font);
-    $light_decls[] = '--font-body: ' . piratez_get_font_stack($body_font);
-    if ($accent_font === 'Press Start 2P') {
-        $light_decls[] = "--font-accent: 'Press Start 2P', monospace";
-    } elseif ($accent_font === 'Same as heading') {
-        $light_decls[] = '--font-accent: var(--font-heading)';
-    } else {
-        $light_decls[] = '--font-accent: var(--font-body)';
-    }
-
-    $dynamic_css = ':root { ' . implode('; ', $light_decls) . '; }
-html[data-theme="dark"] { ' . implode('; ', $dark_decls) . '; }
-html { font-size: ' . $base_size . 'px; }
-';
-    wp_add_inline_style('piratez-foundation', $dynamic_css);
+    wp_add_inline_style('piratez-foundation', piratez_design_variables_css());
 
     // Google Fonts (Inter, Roboto, Press Start 2P for Customizer choices)
     wp_enqueue_style('piratez-fonts', 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&family=Press+Start+2P&display=swap', array(), null);
@@ -202,9 +152,6 @@ html { font-size: ' . $base_size . 'px; }
     // Main theme JavaScript (no dependencies for core functionality)
     wp_enqueue_script('piratez-theme', get_template_directory_uri() . '/js/theme.js', array(), PIRATEZ_VERSION, true);
     
-    // Add defer attribute for performance
-    add_filter('script_loader_tag', 'piratez_defer_scripts', 10, 2);
-
     // Dark mode JavaScript
     wp_enqueue_script('piratez-dark-mode', get_template_directory_uri() . '/js/dark-mode.js', array('piratez-theme'), PIRATEZ_VERSION, true);
 
@@ -226,6 +173,11 @@ html { font-size: ' . $base_size . 'px; }
         wp_enqueue_script('piratez-toc', get_template_directory_uri() . '/js/toc.js', array('piratez-theme'), PIRATEZ_VERSION, true);
     }
 
+    // Let core resolve deferred classic-script dependencies.
+    foreach (array('piratez-theme', 'piratez-dark-mode', 'piratez-reading-time', 'piratez-scroll-top', 'piratez-reading-progress', 'piratez-toc') as $handle) {
+        wp_script_add_data($handle, 'strategy', 'defer');
+    }
+
     // Localize script for AJAX
     wp_localize_script('piratez-theme', 'piratezData', array(
         'ajaxUrl' => admin_url('admin-ajax.php'),
@@ -237,18 +189,19 @@ html { font-size: ' . $base_size . 'px; }
         wp_enqueue_script('comment-reply');
     }
 
-    // Lazy load images
+    // Preserve native image loading priority
     add_filter('wp_get_attachment_image_attributes', 'piratez_lazy_load_images', 10, 3);
 }
 add_action('wp_enqueue_scripts', 'piratez_cyberpunk_scripts');
 
 /**
- * Add lazy loading to images
+ * Preserve core loading priority; provide async decoding when unset
  */
 function piratez_lazy_load_images($attr, $attachment, $size) {
     if (!is_admin() && !wp_is_mobile()) {
-        $attr['loading'] = 'lazy';
-        $attr['decoding'] = 'async';
+        if (!isset($attr['decoding'])) {
+            $attr['decoding'] = 'async';
+        }
     }
     return $attr;
 }
@@ -259,16 +212,6 @@ function piratez_lazy_load_images($attr, $attachment, $size) {
 function piratez_font_preconnect() {
     echo '<link rel="preconnect" href="https://fonts.googleapis.com">' . "\n";
     echo '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>' . "\n";
-}
-
-/**
- * Defer script loading for performance
- */
-function piratez_defer_scripts($tag, $handle) {
-    if ($handle === 'piratez-theme' || strpos($handle, 'piratez-') === 0) {
-        return str_replace(' src', ' defer src', $tag);
-    }
-    return $tag;
 }
 
 /**
@@ -346,3 +289,4 @@ function piratez_modify_main_query($query) {
     }
 }
 add_action('pre_get_posts', 'piratez_modify_main_query');
+

@@ -1,0 +1,18 @@
+/** Editor canvas only: do not import navigation, cards, or frontend resets. */
+:root {
+    --color-bg-primary: #fff;
+    --color-bg-secondary: #f5f5f5;
+    --color-surface: #fff;
+    --color-text-primary: #1a1a2e;
+    --color-text-secondary: #666;
+    --color-border: #e0e0e0;
+    --color-accent-primary: #0066cc;
+    --color-accent-secondary: #cc0066;
+    --color-accent-gold: #b8860b;
+    --font-body: Inter, system-ui, sans-serif;
+    --font-heading: Inter, system-ui, sans-serif;
+}
+.editor-styles-wrapper { background: var(--color-bg-primary); font-size: var(--piratez-base-font-size, 16px); }
+.editor-styles-wrapper .is-root-container > .wp-block { max-width: var(--wp--style--global--content-size, 800px); }
+.editor-styles-wrapper .is-root-container > .wp-block[data-align="wide"] { max-width: var(--wp--style--global--wide-size, 1200px); }
+.editor-styles-wrapper .is-root-container > .wp-block[data-align="full"] { max-width: none; }
