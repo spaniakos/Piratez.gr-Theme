@@ -1,127 +1,54 @@
 <?php
-/**
- * Render-blocking optimizations.
- *
- * - Theme CSS: non-blocking via first filter (piratez_style_loader_tag_nonblocking).
- * - All other CSS (plugins, core): non-blocking via second filter (Option B).
- * Scripts are deferred in functions.php.
- *
- * @package piratez_cyberpunk
- */
+/** Asynchronous frontend stylesheets, including core Gutenberg assets. */
+if (!defined('ABSPATH')) { exit; }
 
-if (!defined('ABSPATH')) {
-    exit;
-}
-
-/**
- * Theme style handles to load with media="print" + onload (non-blocking).
- *
- * @return array Style handle names.
- */
 function piratez_render_blocking_style_handles() {
-    return array(
-        'piratez-style',
-        'piratez-foundation',
-        'piratez-cyberpunk',
-        'piratez-pirate',
-        'piratez-fonts',
-    );
+    return array('piratez-style', 'piratez-foundation', 'piratez-cyberpunk', 'piratez-pirate', 'piratez-content', 'piratez-fonts');
 }
 
 /**
- * Make theme stylesheets non-blocking: load with media="print", switch to "all" on load.
- * Adds noscript fallback so CSS still applies when JS is disabled.
- *
- * @param string $html  The link tag for the enqueued style.
- * @param string $handle The style's registered handle.
- * @param string $href  The stylesheet's source URL.
- * @param string $media The stylesheet's media attribute.
- * @return string Modified link tag (and noscript fallback).
+ * Preserve link attributes, including integrity, crossorigin, RTL, and media.
+ * Genuine print styles remain print-only; fallbacks preserve original media.
+ * Inline global styles and script modules are handled by core.
  */
+function piratez_async_stylesheet_tag($html, $handle, $href, $media) {
+    $processor = new WP_HTML_Tag_Processor($html);
+    if (!$processor->next_tag(array('tag_name' => 'LINK'))) { return $html; }
+    if ($processor->get_attribute('rel') !== 'stylesheet' ||
+        $processor->get_attribute('data-piratez-async') !== null ||
+        $processor->get_attribute('onload') !== null ||
+        $processor->get_attribute('disabled') !== null) {
+        return $html;
+    }
+    $original_media = $processor->get_attribute('media');
+    if (!is_string($original_media) || trim($original_media) === '') {
+        $original_media = is_string($media) && trim($media) !== '' ? $media : 'all';
+    }
+    if (strtolower(trim($original_media)) === 'print') { return $html; }
+
+    $fallback = new WP_HTML_Tag_Processor($html);
+    $fallback->next_tag(array('tag_name' => 'LINK'));
+    $fallback->remove_attribute('id');
+    $processor->set_attribute('media', 'print');
+    $processor->set_attribute('data-piratez-async', '1');
+    $processor->set_attribute('onload', 'this.onload=null;this.media=' . wp_json_encode($original_media) . ';');
+    return $processor->get_updated_html() . '<noscript>' . $fallback->get_updated_html() . '</noscript>';
+}
+
+// Preserve named helpers for integrations; the processor is idempotent.
 function piratez_style_loader_tag_nonblocking($html, $handle, $href, $media) {
-    $handles = piratez_render_blocking_style_handles();
-    if (!in_array($handle, $handles, true)) {
-        return $html;
-    }
-
-    if (strpos($html, "media='print'") !== false || strpos($html, 'media="print"') !== false) {
-        return $html;
-    }
-
-    $media_attr = 'print';
-    $onload     = "this.media='all'";
-    $html       = str_replace("media='all'", 'media="' . esc_attr($media_attr) . '" onload="' . esc_attr($onload) . '"', $html);
-    $html       = str_replace('media="all"', 'media="' . esc_attr($media_attr) . '" onload="' . esc_attr($onload) . '"', $html);
-
-    $noscript = '<noscript><link rel="stylesheet" href="' . esc_url($href) . '" media="all"></noscript>';
-    return $html . $noscript;
+    if (!in_array($handle, piratez_render_blocking_style_handles(), true)) { return $html; }
+    return piratez_async_stylesheet_tag($html, $handle, $href, $media);
 }
-
-/**
- * Make all non-theme stylesheets non-blocking (Option B: plugin/core CSS).
- * Theme handles are left to the filter above; this runs after and only touches other styles.
- *
- * @param string $html  The link tag for the enqueued style.
- * @param string $handle The style's registered handle.
- * @param string $href  The stylesheet's source URL.
- * @param string $media The stylesheet's media attribute.
- * @return string Modified link tag (and noscript fallback).
- */
 function piratez_style_loader_tag_nonblocking_global($html, $handle, $href, $media) {
-    $theme_handles = piratez_render_blocking_style_handles();
-    if (in_array($handle, $theme_handles, true)) {
-        return $html;
-    }
-
-    if (strpos($html, "media='print'") !== false || strpos($html, 'media="print"') !== false) {
-        return $html;
-    }
-
-    $media_attr = 'print';
-    $onload     = "this.media='all'";
-    $html       = str_replace("media='all'", 'media="' . esc_attr($media_attr) . '" onload="' . esc_attr($onload) . '"', $html);
-    $html       = str_replace('media="all"', 'media="' . esc_attr($media_attr) . '" onload="' . esc_attr($onload) . '"', $html);
-
-    $noscript = '<noscript><link rel="stylesheet" href="' . esc_url($href) . '" media="all"></noscript>';
-    return $html . $noscript;
+    return piratez_async_stylesheet_tag($html, $handle, $href, $media);
 }
-
-/**
- * Force non-blocking for consent/popup CSS by URL (catches plugin styles that bypass normal media).
- * Runs after global filter so any popup.css that still has default blocking gets converted.
- *
- * @param string $html  The link tag for the enqueued style.
- * @param string $handle The style's registered handle.
- * @param string $href  The stylesheet's source URL.
- * @param string $media The stylesheet's media attribute.
- * @return string Modified link tag (and noscript fallback).
- */
 function piratez_style_loader_tag_popup_nonblocking($html, $handle, $href, $media) {
-    if (strpos($href, 'popup.css') === false) {
-        return $html;
-    }
-    if (strpos($html, "media='print'") !== false || strpos($html, 'media="print"') !== false) {
-        return $html;
-    }
-    $onload = "this.media='all'";
-    $html   = str_replace("media='all'", 'media="print" onload="' . esc_attr($onload) . '"', $html);
-    $html   = str_replace('media="all"', 'media="print" onload="' . esc_attr($onload) . '"', $html);
-    if (strpos($html, 'onload="') === false) {
-        $html = preg_replace('/(<link\s[^>]+?)(\s*\/?>)/', '$1 media="print" onload="' . esc_attr($onload) . '"$2', $html, 1);
-    }
-    $noscript = '<noscript><link rel="stylesheet" href="' . esc_url($href) . '" media="all"></noscript>';
-    return $html . $noscript;
+    return strpos($href, 'popup.css') === false ? $html : piratez_async_stylesheet_tag($html, $handle, $href, $media);
 }
-
-/**
- * Register render-blocking filters (front end only).
- */
 function piratez_render_blocking_init() {
-    if (is_admin() || wp_doing_ajax()) {
-        return;
-    }
-    add_filter('style_loader_tag', 'piratez_style_loader_tag_nonblocking', 10, 4);
+    if (is_admin() || wp_doing_ajax()) { return; }
     add_filter('style_loader_tag', 'piratez_style_loader_tag_nonblocking_global', 11, 4);
-    add_filter('style_loader_tag', 'piratez_style_loader_tag_popup_nonblocking', 12, 4);
 }
 add_action('wp_enqueue_scripts', 'piratez_render_blocking_init', 20);
+

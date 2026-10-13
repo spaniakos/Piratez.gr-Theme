@@ -2,7 +2,7 @@
 
 A WordPress theme for tech blogs: pirate + cyberpunk style, dark/light mode, and blog-friendly features. Built to share the clean design character of [makeasite.gr](https://makeasite.gr) with a more playful personality.
 
-**Requires:** WordPress 5.0+ | PHP 7.4+  
+**Requires:** WordPress 7.1.3+ | PHP 7.4+  
 **License:** GPLv3 or later
 
 ---
@@ -196,3 +196,10 @@ GPLv3 or later. See [LICENSE](LICENSE) and [gnu.org/licenses/gpl.html](https://w
 **makeasite.gr**  
 - Site: [makeasite.gr](https://makeasite.gr)  
 - Theme blog: [piratez.gr](https://piratez.gr)
+
+
+## WordPress 7.1 Gutenberg integration
+
+Version 1.1.0 targets the supplied WordPress 7.1.3 baseline. Shared `theme.json` settings and `css/content.css` style core blocks and raw article HTML. The editor uses the Customizer default light/dark palette; frontend reader preferences remain independent. Core owns nested layout and interactive block behavior. Existing PirateZ shortcodes remain supported.
+
+Frontend stylesheet links remain asynchronous, with original attributes/media preserved and a no-JavaScript fallback. Inline global/block styles and core script modules retain native WordPress handling. See `GUTENBERG-COMPATIBILITY.md` for coverage and validation status.

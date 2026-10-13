@@ -1,7 +1,7 @@
 === Piratez Cyberpunk ===
 Contributors: makeasite
-Requires at least: 5.0
-Tested up to: 6.4
+Requires at least: 7.1.3
+Tested up to: 7.1.3
 Requires PHP: 7.4
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl.html
@@ -89,3 +89,4 @@ Appearance > Customize > Typography Settings: Heading Font and Body Font (Inter,
 
 * Google Fonts (Inter, Roboto, Press Start 2P) - loaded from fonts.googleapis.com; see Google Fonts terms.
 * Theme uses no other bundled third-party assets; SVG icons in shortcode are inline and part of the theme (GPL).
+

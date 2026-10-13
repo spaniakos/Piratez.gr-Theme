@@ -75,6 +75,7 @@
             lightParts.push('--font-accent: var(--font-body)');
         }
         baseSize = Math.max(14, Math.min(22, parseInt(baseSize, 10) || 16));
+        lightParts.push('--piratez-base-font-size: ' + baseSize + 'px');
         return ':root { ' + lightParts.join('; ') + ' } html[data-theme="dark"] { ' + darkParts.join('; ') + ' } html { font-size: ' + baseSize + 'px; }';
     }
 
@@ -106,3 +107,4 @@
         });
     });
 })(jQuery);
+
