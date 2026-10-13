@@ -72,9 +72,10 @@ function piratez_generate_llms_txt() {
     $lines[] = '# ' . home_url('/');
     $lines[] = '';
 
-    $posts = get_posts(array(
+    $posts = (string) get_option('blog_public') === '0' ? array() : get_posts(array(
         'post_type'      => array('post', 'page'),
         'post_status'    => 'publish',
+        'has_password'   => false,
         'posts_per_page' => -1,
         'orderby'       => 'date',
         'order'         => 'DESC',
@@ -114,9 +115,10 @@ function piratez_generate_sitemap_xml() {
     $urlset = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
     $urlset .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
 
-    $posts = get_posts(array(
+    $posts = (string) get_option('blog_public') === '0' ? array() : get_posts(array(
         'post_type'      => array('post', 'page'),
         'post_status'    => 'publish',
+        'has_password'   => false,
         'posts_per_page' => -1,
         'orderby'       => 'date',
         'order'         => 'DESC',
@@ -180,11 +182,24 @@ function piratez_serve_sitemap_xml() {
 /**
  * Invalidate cache when a post is saved
  */
-function piratez_ai_index_invalidate_on_save() {
+function piratez_ai_index_invalidate_on_save($post_id = 0, $post = null) {
+    if ($post_id) {
+        $post = $post instanceof WP_Post ? $post : get_post($post_id);
+        if (!$post || !in_array($post->post_type, array('post', 'page'), true) || wp_is_post_revision($post_id)) { return; }
+    }
     delete_transient(PIRATEZ_LLMS_TRANSIENT);
     delete_transient(PIRATEZ_SITEMAP_TRANSIENT);
+    // Refresh physical files once at request end, after all content/status changes.
+    static $queued = false;
+    if (!$queued && (file_exists(ABSPATH . 'llms.txt') || file_exists(ABSPATH . 'sitemap.xml'))) {
+        $queued = true;
+        add_action('shutdown', 'piratez_ai_index_regenerate', 5);
+    }
 }
-add_action('save_post', 'piratez_ai_index_invalidate_on_save');
+add_action('save_post', 'piratez_ai_index_invalidate_on_save', 10, 2);
+add_action('deleted_post', 'piratez_ai_index_invalidate_on_save', 10, 2);
+add_action('set_object_terms', 'piratez_ai_index_invalidate_on_save', 10, 1);
+add_action('update_option_blog_public', 'piratez_ai_index_invalidate_on_save', 10, 0);
 
 /**
  * Regenerate and repopulate transients (for cron and AJAX)
@@ -203,10 +218,18 @@ function piratez_ai_index_write_files($llms_content, $sitemap_content) {
     }
     $llms_file   = $root . 'llms.txt';
     $sitemap_file = $root . 'sitemap.xml';
-    if (file_put_contents($llms_file, $llms_content, LOCK_EX) === false) {
-        return;
+    $owned = get_option('piratez_ai_index_owned_files', array());
+    foreach (array($llms_file => $llms_content, $sitemap_file => $sitemap_content) as $target => $content) {
+        $temporary = tempnam($root, '.piratez-index-');
+        if (!$temporary) { continue; }
+        if (file_put_contents($temporary, $content, LOCK_EX) !== false) {
+            @chmod($temporary, file_exists($target) ? fileperms($target) & 0777 : 0644);
+            if (@rename($temporary, $target)) { $owned[basename($target)] = hash('sha256', $content); }
+        }
+        if (file_exists($temporary)) { @unlink($temporary); }
     }
-    file_put_contents($sitemap_file, $sitemap_content, LOCK_EX);
+    update_option('piratez_ai_index_owned_files', $owned, false);
+
 }
 
 function piratez_ai_index_regenerate() {
@@ -350,3 +373,17 @@ function piratez_ai_index_activation() {
     delete_transient('piratez_ai_index_cron_scheduled');
 }
 add_action('after_switch_theme', 'piratez_ai_index_activation');
+
+
+/** Remove this theme's scheduled work and only tracked, unmodified generated files. */
+function piratez_ai_index_deactivation() {
+    wp_clear_scheduled_hook(PIRATEZ_CRON_AI_INDEX);
+    delete_transient('piratez_ai_index_cron_scheduled');
+    foreach (get_option('piratez_ai_index_owned_files', array()) as $name => $digest) {
+        if (!in_array($name, array('llms.txt', 'sitemap.xml'), true)) { continue; }
+        $path = ABSPATH . $name;
+        if (is_file($path) && hash_equals($digest, hash_file('sha256', $path))) { @unlink($path); }
+    }
+    delete_option('piratez_ai_index_owned_files');
+}
+add_action('switch_theme', 'piratez_ai_index_deactivation');

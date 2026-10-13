@@ -1,0 +1,29 @@
+{
+  "type": "theme",
+  "slug": "piratez-cyberpunk",
+  "repo": "spaniakos/Piratez.gr-Theme",
+  "entry": "style.css",
+  "version_constant": "PIRATEZ_VERSION",
+  "tested": "7.1.3",
+  "runtime": [
+    "404.php",
+    "archive.php",
+    "footer.php",
+    "functions.php",
+    "header.php",
+    "index.php",
+    "page.php",
+    "readme.txt",
+    "screenshot.png",
+    "search.php",
+    "sidebar.php",
+    "single.php",
+    "style.css",
+    "theme.json",
+    "LICENSE",
+    "css",
+    "inc",
+    "js",
+    "template-parts"
+  ]
+}

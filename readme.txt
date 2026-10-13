@@ -3,6 +3,7 @@ Contributors: makeasite
 Requires at least: 7.1.3
 Tested up to: 7.1.3
 Requires PHP: 7.4
+Stable tag: 1.2.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl.html
 
@@ -62,6 +63,11 @@ Full light and dark palette in Appearance > Customize > Colors & Appearance: 9 c
 Appearance > Customize > Typography Settings: Heading Font and Body Font (Inter, Roboto, System UI); Accent Font (Press Start 2P, Same as heading, Same as body); Base Font Size 14–22px. All controlled from the theme; blog-friendly readability.
 
 == Changelog ==
+
+= 1.2.0 =
+* GitHub release packages with verified native WordPress updates.
+* Updates & Modules settings, optional addon installation, screenshot, Unicode reading time, reliable theme preferences and index refresh.
+
 
 = 1.0.0 =
 * Initial release.

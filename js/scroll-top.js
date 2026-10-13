@@ -40,14 +40,15 @@
         }
 
         window.addEventListener('scroll', onScroll, { passive: true });
-        // No initial run: CSS hides button by default; only update on scroll to avoid reflow.
+        onScroll();
+        window.addEventListener('pageshow', onScroll);
 
         // Scroll to top on click
         scrollButton.addEventListener('click', function(e) {
             e.preventDefault();
             window.scrollTo({
                 top: 0,
-                behavior: 'smooth'
+                behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
             });
         });
     }
@@ -59,3 +60,4 @@
         initScrollToTop();
     }
 })();
+

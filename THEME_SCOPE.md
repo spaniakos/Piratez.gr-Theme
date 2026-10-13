@@ -9,7 +9,7 @@ An opinionated, accessible, AI-readable publishing system for serious blogs.
 This theme is:
 
 - **Blog-first:** Optimized for long-form posts, reading time, table of contents, and clear typography.
-- **Theme-scoped:** All behaviour lives in the theme; no plugin ecosystem. Perks are bundled intentionally.
+- **Theme-scoped:** Core publishing behavior lives in the theme. Optional first-party image optimization and cookie consent modules have independent releases and native updates.
 - **Accessibility baseline:** WCAG 2.1 AA target (landmarks, skip link, keyboard nav, focus styles, reduced motion).
 - **AI-readable:** Optional llms.txt / sitemap support for discoverability; no SEO scoring or content rewriting.
 - **Performance-neutral:** No external JS libraries; minimal JS; lazy-load media; cache-friendly outputs.
@@ -26,8 +26,8 @@ Declared via `add_theme_support()`; enqueues and hooks are gated with `current_t
 
 This theme will **not**:
 
-- Require or ship plugins / addons.
-- Add admin UI or settings pages beyond the WordPress Customizer.
+- Require addons for normal theme operation. First-party modules are optional and installed only by an administrator.
+- Add unrelated admin dashboards. Appearance → PirateZ Updates & Modules manages this theme and its two first-party modules.
 - Provide SEO dashboards, scoring, or keyword tools.
 - Bundle analytics or tracking.
 - Redesign or replace the core comments system.
@@ -36,3 +36,4 @@ This theme will **not**:
 - Add marketing popups, newsletter signup overlays, or similar.
 
 If a feature does not improve reading, clarity, or longevity of content, it does not belong.
+
