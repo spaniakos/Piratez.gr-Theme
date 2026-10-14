@@ -12,7 +12,7 @@ if (!defined('ABSPATH')) {
 /**
  * Theme version
  */
-define('PIRATEZ_VERSION', '1.1.0');
+define('PIRATEZ_VERSION', '1.2.0');
 
 /**
  * Theme setup
@@ -118,6 +118,7 @@ require get_template_directory() . '/inc/widget-areas.php';
  */
 require get_template_directory() . '/inc/render-blocking.php';
 require get_template_directory() . '/inc/block-editor.php';
+require get_template_directory() . '/inc/modules.php';
 
 /**
  * Enqueue scripts and styles
@@ -290,3 +291,10 @@ function piratez_modify_main_query($query) {
 }
 add_action('pre_get_posts', 'piratez_modify_main_query');
 
+
+/** Small inline palette bootstrap runs before asynchronous styles, without a blocking request. */
+function piratez_theme_mode_bootstrap() {
+    $script = file_get_contents(get_template_directory() . '/js/theme-mode.js');
+    wp_print_inline_script_tag($script, array('id' => 'piratez-theme-mode'));
+}
+add_action('wp_head', 'piratez_theme_mode_bootstrap', 1);

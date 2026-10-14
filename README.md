@@ -203,3 +203,19 @@ GPLv3 or later. See [LICENSE](LICENSE) and [gnu.org/licenses/gpl.html](https://w
 Version 1.1.0 targets the supplied WordPress 7.1.3 baseline. Shared `theme.json` settings and `css/content.css` style core blocks and raw article HTML. The editor uses the Customizer default light/dark palette; frontend reader preferences remain independent. Core owns nested layout and interactive block behavior. Existing PirateZ shortcodes remain supported.
 
 Frontend stylesheet links remain asynchronous, with original attributes/media preserved and a no-JavaScript fallback. Inline global/block styles and core script modules retain native WordPress handling. See `GUTENBERG-COMPATIBILITY.md` for coverage and validation status.
+
+## GitHub updates and optional modules
+
+Version 1.2.0 adds Appearance → PirateZ Updates & Modules for release checks, theme updates, and separate installation/activation of PirateZ Image Optimize and PirateZ Cookie Consent. Updates also appear in the standard WordPress screens. Render-blocking optimization remains enabled. Install the first updater-enabled ZIP manually; subsequent stable GitHub releases are supported. See [RELEASING.md](RELEASING.md) for release and update instructions.
+
+The supplied blog screenshot is included as `screenshot.png`. Reading time supports Greek/Unicode words, related selections are cached without random sorting, static indexes refresh after content changes, and palette preferences survive unavailable storage without saving automatic choices.
+
+Run the disposable updater integration with:
+
+```sh
+cd tests
+npm install
+WP_SOURCE=/path/to/wordpress-7.1.3 PIRATEZ_ADDONS_SOURCE=/path/to/addons node releases.cjs
+```
+
+The addon source directory must contain both repository folders with their release build scripts. Tests substitute GitHub HTTP responses locally and never publish releases or change your real installation.

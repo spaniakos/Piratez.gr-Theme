@@ -8,8 +8,8 @@
     'use strict';
 
     function calculateReadingTime(content) {
-        const text = content.textContent || content.innerText || '';
-        const words = text.trim().split(/\s+/).length;
+        const text = content.innerText || content.textContent || '';
+        const words = (text.match(/[\p{L}\p{N}]+(?:['’\-][\p{L}\p{N}]+)*/gu) || []).length;
         const readingTime = Math.ceil(words / 200); // Average 200 words per minute
         return readingTime;
     }
@@ -56,3 +56,4 @@
         updateReadingTime();
     }
 })();
+

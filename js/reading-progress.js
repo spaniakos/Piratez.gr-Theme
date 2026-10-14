@@ -23,13 +23,14 @@
         // Two-rAF: read dimensions/scroll in frame 1, write width in frame 2 to avoid forced reflow.
         function writeProgressState() {
             progressBar.style.width = lastProgress + '%';
+            progressBar.setAttribute('aria-valuenow', String(Math.round(lastProgress)));
             ticking = false;
         }
 
         function readProgress() {
             const windowHeight = window.innerHeight;
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            const articleTop = article.offsetTop;
+            const articleTop = article.getBoundingClientRect().top + scrollTop;
             const articleHeight = article.offsetHeight;
 
             let progress = 0;
@@ -51,6 +52,9 @@
         }
 
         window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onScroll, { passive: true });
+        window.addEventListener('pageshow', onScroll);
+        if (window.ResizeObserver) { new ResizeObserver(onScroll).observe(article); }
         // Initial calculation (defer to next frame to avoid forced reflow in same tick as other inits)
         requestAnimationFrame(readProgress);
     }
@@ -62,3 +66,4 @@
         initReadingProgress();
     }
 })();
+

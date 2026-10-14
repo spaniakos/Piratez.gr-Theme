@@ -8,6 +8,7 @@
 
     </div><!-- #content -->
 
+    <footer id="colophon" class="site-footer" role="contentinfo">
     <?php
     // Footer Widget Areas
     $footer_columns = get_theme_mod('piratez_footer_columns', 4);
@@ -20,7 +21,7 @@
             }
         }
         if ($footer_active) : ?>
-            <footer id="colophon" class="site-footer" role="contentinfo">
+            <div class="site-footer-widgets">
                 <div class="container">
                     <div class="footer-widgets footer-columns-<?php echo esc_attr($footer_columns); ?>">
                         <?php
@@ -34,7 +35,7 @@
                         ?>
                     </div><!-- .footer-widgets -->
                 </div><!-- .container -->
-            </footer><!-- #colophon -->
+            </div><!-- .site-footer-widgets -->
         <?php endif;
     endif;
     ?>
@@ -60,6 +61,8 @@
         </div><!-- .container -->
     </div><!-- .site-footer-bottom -->
 
+    </footer><!-- #colophon -->
+
     <?php
     // Scroll to Top Button
     if (get_theme_mod('piratez_scroll_to_top', true)) {
@@ -73,3 +76,4 @@
 
 </body>
 </html>
+

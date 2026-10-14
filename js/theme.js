@@ -62,7 +62,9 @@
                 return;
             }
 
-            const target = document.querySelector(href);
+            let id;
+            try { id = decodeURIComponent(href.slice(1)); } catch (error) { return; }
+            const target = document.getElementById(id);
             if (target) {
                 e.preventDefault();
                 target.scrollIntoView({
@@ -142,6 +144,7 @@
         button.addEventListener('click', function () {
             const url = this.getAttribute('data-url');
             if (url) {
+                if (!navigator.clipboard || !navigator.clipboard.writeText) { return; }
                 navigator.clipboard.writeText(url).then(function () {
                     const originalText = button.querySelector('.share-text').textContent;
                     button.querySelector('.share-text').textContent = 'Copied!';
@@ -158,3 +161,4 @@
         });
     });
 })();
+

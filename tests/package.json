@@ -2,7 +2,8 @@
   "private": true,
   "scripts": {
     "content": "node content.cjs",
-    "wordpress": "node wordpress.cjs"
+    "wordpress": "node wordpress.cjs",
+    "releases": "node releases.cjs"
   },
   "devDependencies": {
     "playwright": "1.62.1",
