@@ -11,3 +11,9 @@ Install the first updater-enabled release manually through WordPress Upload Them
 Only stable releases with matching package identity, SHA-256 and WordPress/PHP requirements are accepted. Private repositories and arbitrary third-party URLs are not supported. Failed downloads leave the installed version untouched. Standard WordPress permissions, nonces, filesystem restrictions and automatic-update choices still apply.
 
 GitHub release checks are cached for six hours; Check for updates refreshes them. When GitHub is unavailable or rate-limited, the installed theme/modules keep working. Sites requiring FTP credentials can use the standard WordPress update screens.
+
+## Manager extraction (theme 1.3.0)
+
+PirateZ Manager 1.0.0 moves the optional catalogue to a standalone plugin. Publish Manager first, then theme 1.3.0; activation and theme-update order are both supported. Install Manager once from its release ZIP. It supplies the top-level PirateZ admin menu and manages the same existing addons.
+
+The theme retains its independent updater. With Manager inactive it restores the legacy Appearance → PirateZ Updates & Modules screen. Activating Manager suppresses the legacy implementation on the next request. No content/settings import is needed, and render-blocking optimization is unchanged. Deactivate Manager for rollback; retain the previous theme ZIP for ordinary theme rollback.
