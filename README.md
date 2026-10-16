@@ -219,3 +219,7 @@ WP_SOURCE=/path/to/wordpress-7.1.3 PIRATEZ_ADDONS_SOURCE=/path/to/addons node re
 ```
 
 The addon source directory must contain both repository folders with their release build scripts. Tests substitute GitHub HTTP responses locally and never publish releases or change your real installation.
+
+## Editorial handoff (1.4.0)
+
+Editorial tools now live in PirateZ Editorial. Follow [the handoff instructions](docs/EDITORIAL-HANDOFF.md) before updating. The theme supplies placement and page layout variants; the plugin supplies content behavior. Theme and Manager self-updaters remain independent.

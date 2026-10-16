@@ -8,7 +8,7 @@
 
 <article id="post-<?php the_ID(); ?>" <?php post_class('page-content'); ?>>
     <header class="entry-header">
-        <?php the_title('<h1 class="entry-title">', '</h1>'); ?>
+        <?php if (!piratez_page_hide('title')) the_title('<h1 class="entry-title">', '</h1>'); ?>
     </header><!-- .entry-header -->
 
     <?php if (has_post_thumbnail()) : ?>
@@ -18,7 +18,7 @@
     <?php endif; ?>
 
     <?php
-    if (current_theme_supports('piratez-toc') && get_theme_mod('piratez_table_of_contents', true)) {
+    if (piratez_editorial_enabled('toc')) {
         get_template_part('template-parts/table-of-contents');
     }
     ?>

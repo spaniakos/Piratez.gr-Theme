@@ -687,3 +687,11 @@ function piratez_cyberpunk_customize_preview_js() {
     );
 }
 add_action('customize_preview_init', 'piratez_cyberpunk_customize_preview_js');
+
+add_action('customize_register', function($customizer) {
+    $customizer->remove_section('piratez_social_media_section');
+    foreach (['reading_time','reading_progress','table_of_contents','related_posts','social_sharing'] as $feature) {
+        $customizer->remove_control('piratez_' . $feature);
+        $customizer->remove_control('piratez_' . $feature . '_control');
+    }
+}, 100);

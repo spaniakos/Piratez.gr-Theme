@@ -8,6 +8,7 @@
 
     </div><!-- #content -->
 
+    <?php if (!piratez_page_hide('footer')) : ?>
     <footer id="colophon" class="site-footer" role="contentinfo">
     <?php
     // Footer Widget Areas
@@ -62,6 +63,7 @@
     </div><!-- .site-footer-bottom -->
 
     </footer><!-- #colophon -->
+    <?php endif; ?>
 
     <?php
     // Scroll to Top Button

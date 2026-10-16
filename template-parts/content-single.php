@@ -15,12 +15,7 @@
             <?php piratez_posted_on(); ?>
             <?php piratez_posted_by(); ?>
             <?php
-            if (get_theme_mod('piratez_reading_time', true)) {
-                $reading_time = piratez_calculate_reading_time(get_the_content());
-                if ($reading_time) {
-                    echo '<span class="reading-time">' . esc_html($reading_time) . ' ' . esc_html__('min read', 'piratez-cyberpunk') . '</span>';
-                }
-            }
+            piratez_editorial_component('reading_time');
             ?>
         </div><!-- .entry-meta -->
     </header><!-- .entry-header -->
@@ -33,7 +28,7 @@
 
     <?php
     // Table of Contents (gated by piratez-toc feature flag)
-    if (current_theme_supports('piratez-toc') && get_theme_mod('piratez_table_of_contents', true)) {
+    if (piratez_editorial_enabled('toc')) {
         get_template_part('template-parts/table-of-contents');
     }
     ?>
@@ -74,7 +69,7 @@
 
         <?php
         // Social Sharing
-        if (get_theme_mod('piratez_social_sharing', true)) {
+        if (piratez_editorial_enabled('sharing')) {
             get_template_part('template-parts/social-sharing');
         }
         ?>

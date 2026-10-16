@@ -37,5 +37,5 @@ get_header();
 </main><!-- #primary -->
 
 <?php
-get_sidebar();
+if (piratez_page_variant()==='default') get_sidebar();
 get_footer();

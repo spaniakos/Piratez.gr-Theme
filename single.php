@@ -28,7 +28,7 @@ get_header();
         ));
 
         // Related Posts
-        if (get_theme_mod('piratez_related_posts', true)) {
+        if (piratez_editorial_enabled('related')) {
             get_template_part('template-parts/related-posts');
         }
 
