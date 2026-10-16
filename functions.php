@@ -12,7 +12,7 @@ if (!defined('ABSPATH')) {
 /**
  * Theme version
  */
-define('PIRATEZ_VERSION', '1.3.0');
+define('PIRATEZ_VERSION', '1.4.0');
 
 /**
  * Theme setup
@@ -79,7 +79,8 @@ function piratez_cyberpunk_setup() {
     add_theme_support('wp-block-styles');
 
     // Feature flags (see THEME_SCOPE.md)
-    add_theme_support('piratez-toc');
+    add_theme_support('piratez-editorial-placement');
+    add_theme_support('piratez-editorial-page-layouts');
     add_theme_support('piratez-accessibility');
     add_theme_support('piratez-ai-index');
 }
@@ -156,26 +157,13 @@ function piratez_cyberpunk_scripts() {
     // Dark mode JavaScript
     wp_enqueue_script('piratez-dark-mode', get_template_directory_uri() . '/js/dark-mode.js', array('piratez-theme'), PIRATEZ_VERSION, true);
 
-    // Reading time JavaScript - only if enabled
-    if (get_theme_mod('piratez_reading_time', true)) {
-        wp_enqueue_script('piratez-reading-time', get_template_directory_uri() . '/js/reading-time.js', array('piratez-theme'), PIRATEZ_VERSION, true);
-    }
-
     // Scroll to top JavaScript
     wp_enqueue_script('piratez-scroll-top', get_template_directory_uri() . '/js/scroll-top.js', array('piratez-theme'), PIRATEZ_VERSION, true);
 
-    // Reading progress JavaScript
-    if (get_theme_mod('piratez_reading_progress', true)) {
-        wp_enqueue_script('piratez-reading-progress', get_template_directory_uri() . '/js/reading-progress.js', array('piratez-theme'), PIRATEZ_VERSION, true);
-    }
-
-    // Table of contents JavaScript - only if theme supports and Customizer enabled
-    if (current_theme_supports('piratez-toc') && get_theme_mod('piratez_table_of_contents', true)) {
-        wp_enqueue_script('piratez-toc', get_template_directory_uri() . '/js/toc.js', array('piratez-theme'), PIRATEZ_VERSION, true);
-    }
+    // Editorial runtime assets are supplied by the standalone plugin.
 
     // Let core resolve deferred classic-script dependencies.
-    foreach (array('piratez-theme', 'piratez-dark-mode', 'piratez-reading-time', 'piratez-scroll-top', 'piratez-reading-progress', 'piratez-toc') as $handle) {
+    foreach (array('piratez-theme', 'piratez-dark-mode', 'piratez-scroll-top') as $handle) {
         wp_script_add_data($handle, 'strategy', 'defer');
     }
 
@@ -261,7 +249,7 @@ require get_template_directory() . '/inc/customizer.php';
 /**
  * Shortcodes
  */
-require get_template_directory() . '/inc/shortcodes.php';
+require get_template_directory() . '/inc/editorial.php';
 
 /**
  * AI Index (llms.txt, sitemap.xml) - only when theme supports it

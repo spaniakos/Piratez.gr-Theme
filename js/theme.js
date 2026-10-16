@@ -138,27 +138,4 @@
         }
     }
 
-    // Copy link functionality for social sharing
-    const copyButtons = document.querySelectorAll('.share-copy');
-    copyButtons.forEach(button => {
-        button.addEventListener('click', function () {
-            const url = this.getAttribute('data-url');
-            if (url) {
-                if (!navigator.clipboard || !navigator.clipboard.writeText) { return; }
-                navigator.clipboard.writeText(url).then(function () {
-                    const originalText = button.querySelector('.share-text').textContent;
-                    button.querySelector('.share-text').textContent = 'Copied!';
-                    button.classList.add('copied');
-
-                    setTimeout(function () {
-                        button.querySelector('.share-text').textContent = originalText;
-                        button.classList.remove('copied');
-                    }, 2000);
-                }).catch(function (err) {
-                    console.error('Failed to copy:', err);
-                });
-            }
-        });
-    });
 })();
-
