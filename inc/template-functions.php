@@ -16,5 +16,3 @@ function piratez_get_accent_intensity_class() {
     
     return 'accent-balanced';
 }
-
-

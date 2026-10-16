@@ -9,7 +9,7 @@ function piratez_editorial_enabled($name) {
 }
 add_action('admin_notices',function(){
     if (!current_user_can('activate_plugins') || class_exists('PirateZ\\Editorial\\Content')) return;
-    echo '<div class="notice notice-warning"><p>PirateZ Editorial is needed for legacy PirateZ shortcodes and article tools. Install and activate the compatible release before using this theme update. <a href="'.esc_url(admin_url('admin.php?page=piratez-manager')).'">Open PirateZ</a></p></div>';
+    echo '<div class="notice notice-warning"><p>PirateZ Editorial is needed for legacy PirateZ shortcodes and article tools. Install and activate the compatible release before using this theme update. <a href="'.esc_url(defined('PIRATEZ_MANAGER_VERSION') ? admin_url('admin.php?page=piratez-manager') : piratez_manager_setup_url()).'">Open PirateZ</a></p></div>';
 });
 
 function piratez_page_variant() {
