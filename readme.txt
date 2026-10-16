@@ -65,7 +65,7 @@ Appearance > Customize > Typography Settings: Heading Font and Body Font (Inter,
 == Changelog ==
 
 = 1.3.0 =
-* Hand module management to optional PirateZ Manager while retaining the legacy screen when it is inactive.
+* Move all module management to PirateZ Manager; retain only a verified install/activate/open launcher in the theme.
 * Keep native theme updates independent of Manager. No content, settings or render-blocking behavior changes.
 
 = 1.2.0 =

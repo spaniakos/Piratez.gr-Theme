@@ -6,7 +6,7 @@ For later releases, bump the main file header, the version constant and the read
 
 Run `python3 tools/build_release.py` locally to inspect `dist/`. The allowlist in `release-config.json` controls runtime files; tests and development tools are excluded. The ZIP has one fixed top-level folder so WordPress can replace an existing installation.
 
-Install the first updater-enabled release manually through WordPress Upload Theme / Upload Plugin. Subsequent releases appear in the standard WordPress update screens. With the PirateZ theme active, Appearance → PirateZ Updates & Modules also offers check, install, update and separate activation controls for the two optional modules. Each addon checks for its own releases even when another theme is active.
+Install the first updater-enabled release manually through WordPress Upload Theme / Upload Plugin. Subsequent releases appear in the standard WordPress update screens. With the PirateZ theme active, Appearance → PirateZ Manager installs, activates or opens the standalone Manager. The Manager plugin supplies the catalogue, addon installation and update controls. Each addon checks for its own releases even when another theme is active.
 
 Only stable releases with matching package identity, SHA-256 and WordPress/PHP requirements are accepted. Private repositories and arbitrary third-party URLs are not supported. Failed downloads leave the installed version untouched. Standard WordPress permissions, nonces, filesystem restrictions and automatic-update choices still apply.
 
@@ -14,6 +14,6 @@ GitHub release checks are cached for six hours; Check for updates refreshes them
 
 ## Manager extraction (theme 1.3.0)
 
-PirateZ Manager 1.0.0 moves the optional catalogue to a standalone plugin. Publish Manager first, then theme 1.3.0; activation and theme-update order are both supported. Install Manager once from its release ZIP. It supplies the top-level PirateZ admin menu and manages the same existing addons.
+PirateZ Manager 1.0.0 moves the optional catalogue to a standalone plugin. Publish Manager first, then theme 1.3.0; activation and theme-update order are both supported. Install Manager through Appearance → PirateZ Manager, then activate it separately (or upload its release ZIP manually). It supplies the top-level PirateZ admin menu and manages the same existing addons.
 
-The theme retains its independent updater. With Manager inactive it restores the legacy Appearance → PirateZ Updates & Modules screen. Activating Manager suppresses the legacy implementation on the next request. No content/settings import is needed, and render-blocking optimization is unchanged. Deactivate Manager for rollback; retain the previous theme ZIP for ordinary theme rollback.
+The theme retains its independent updater and a small install/activate/open launcher. All module management lives in Manager; the duplicate legacy implementation is removed. Deactivating Manager restores only the activation button, and deleting it restores the install button. Existing theme/addon operation and independent updates continue. No content/settings import is needed, and render-blocking optimization is unchanged. The old Appearance → PirateZ Updates & Modules bookmark redirects to setup when Manager is inactive, or Manager when active.
