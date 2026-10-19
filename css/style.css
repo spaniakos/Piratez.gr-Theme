@@ -2209,3 +2209,18 @@ button:focus-visible {
         transition: none;
     }
 }
+
+/* Page layouts: outer geometry belongs to the theme. */
+body:is(.pz-page-narrow,.pz-page-wide,.pz-page-full-width,.pz-page-landing) .site-content{display:block;max-width:none;width:100%;padding-inline:0}
+body.pz-page-narrow .site-main{width:100%;max-width:48rem;margin-inline:auto;padding-inline:1.25rem}
+body.pz-page-wide .site-main{width:100%;max-width:90rem;margin-inline:auto;padding-inline:1.5rem}
+body:is(.pz-page-full-width,.pz-page-landing) .site-main{width:100%;max-width:none;margin:0;padding:0}
+body:is(.pz-page-full-width,.pz-page-landing) .page-content{max-width:none;margin:0;padding:0}
+body:is(.pz-page-full-width,.pz-page-landing) .entry-content{max-width:none;padding:0}
+body:is(.pz-page-full-width,.pz-page-landing) .entry-content>.pz-editorial-content{max-width:none;margin:0}
+body:is(.pz-page-full-width,.pz-page-landing) .alignfull{width:100%;max-width:none;margin-inline:0}
+/* Override the theme's desktop sidebar geometry for explicit page templates. */
+body:is(.pz-page-narrow,.pz-page-wide,.pz-page-full-width,.pz-page-landing):not(.sidebar-enabled) .site-content{width:100%!important;max-width:none!important;padding-inline:0!important}
+body.pz-page-narrow:not(.sidebar-enabled) .site-main{max-width:48rem!important}
+body.pz-page-wide:not(.sidebar-enabled) .site-main{max-width:90rem!important}
+body:is(.pz-page-full-width,.pz-page-landing):not(.sidebar-enabled) .site-main{width:100%!important;max-width:none!important;padding-inline:0!important}

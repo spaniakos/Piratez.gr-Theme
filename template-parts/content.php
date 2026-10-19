@@ -32,12 +32,7 @@
             <?php piratez_posted_on(); ?>
             <?php piratez_posted_by(); ?>
             <?php
-            if (get_theme_mod('piratez_reading_time', true)) {
-                $reading_time = piratez_calculate_reading_time(get_the_content());
-                if ($reading_time) {
-                    echo '<span class="reading-time">' . esc_html($reading_time) . ' ' . esc_html__('min read', 'piratez-cyberpunk') . '</span>';
-                }
-            }
+            piratez_editorial_component('reading_time');
             ?>
         </div><!-- .entry-meta -->
 
