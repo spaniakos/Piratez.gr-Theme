@@ -223,3 +223,7 @@ The addon source directory must contain both repository folders with their relea
 ## Editorial handoff (1.4.0)
 
 Editorial tools now live in PirateZ Editorial. Follow [the handoff instructions](docs/EDITORIAL-HANDOFF.md) before updating. The theme supplies placement and page layout variants; the plugin supplies content behavior. Theme and Manager self-updaters remain independent.
+
+### Page tools (1.4.1)
+
+Page templates place Editorial reading time, sharing and related content when enabled in PirateZ → Editorial → Pages or in the page’s Editorial controls. Both default to off. The same guarded adapter works on Default, Narrow, Wide, Full width and Landing templates; the plugin owns rendering and behavior.

@@ -9,6 +9,7 @@
 <article id="post-<?php the_ID(); ?>" <?php post_class('page-content'); ?>>
     <header class="entry-header">
         <?php if (!piratez_page_hide('title')) the_title('<h1 class="entry-title">', '</h1>'); ?>
+        <?php piratez_editorial_component('reading_time'); ?>
     </header><!-- .entry-header -->
 
     <?php if (has_post_thumbnail()) : ?>
@@ -33,6 +34,9 @@
         ));
         ?>
     </div><!-- .entry-content -->
+
+    <?php piratez_editorial_component('sharing'); ?>
+    <?php piratez_editorial_component('related'); ?>
 
     <?php if (get_edit_post_link()) : ?>
         <footer class="entry-footer">
