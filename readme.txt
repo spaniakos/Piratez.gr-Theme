@@ -3,7 +3,7 @@ Contributors: makeasite
 Requires at least: 7.1.3
 Tested up to: 7.1.3
 Requires PHP: 7.4
-Stable tag: 1.4.0
+Stable tag: 1.4.1
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl.html
 
@@ -63,6 +63,10 @@ Full light and dark palette in Appearance > Customize > Colors & Appearance: 9 c
 Appearance > Customize > Typography Settings: Heading Font and Body Font (Inter, Roboto, System UI); Accent Font (Press Start 2P, Same as heading, Same as body); Base Font Size 14–22px. All controlled from the theme; blog-friendly readability.
 
 == Changelog ==
+
+= 1.4.1 =
+* Place Editorial reading time, sharing and related content on pages when their page settings are enabled.
+* Defaults remain off; content engines continue to belong to the standalone Editorial plugin.
 
 = 1.4.0 =
 * Extract editorial engines into PirateZ Editorial; add narrow, wide, full-width and landing page templates. Install Editorial and import settings before this theme handoff. Independent updater and render-blocking optimization remain active.
